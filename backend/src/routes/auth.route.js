@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { signup, login, logout } from "../controllers/auth.controller.js";
+import { signup, login, logout, checkAuth } from "../controllers/auth.controller.js";
+import { protectRoute } from "../middleware/authMiddleware.js";
 
 const router = Router();
 
@@ -14,5 +15,8 @@ router.post("/login", login);
 
 //---------- Logout Route ----------//
 router.delete("/logout", logout);
+
+//---------- Check User Route ----------//
+router.get("/check", protectRoute, checkAuth);
 
 export default router;
