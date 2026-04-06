@@ -14,6 +14,13 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    profilePhoto: {
+        type: String,
+        default: ""
+    },
+    notePreferences: { // add tags to get recommended based on user profile
+        type: String,
     }
 },
 {timestamps: true});

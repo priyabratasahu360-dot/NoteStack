@@ -27,9 +27,15 @@ const noteSchema = new mongoose.Schema({
     },
     files: [
         {
-            url: String,
-            type: String,
-            size: Number
+            url: {
+                type:String
+            },
+            type: {
+                type: String
+            },
+            size: {
+                type: Number
+            }
         }
     ]
 }, {timestamps: true});

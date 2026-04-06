@@ -4,7 +4,7 @@ import { getAllNotes, getRecommendedNotes, getSingleNote, getDownlodedNotes, get
 import { protectRoute } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
-router.get("/notes", getAllNotes); // get all available notes && also for ?search=react
+router.get("/notes", getAllNotes); // get all available notes && also for like -: ?search=react
 
 router.get("/notes/recommended", protectRoute, getRecommendedNotes); // get recommended note based on your profile
 router.get("/notes/downloaded", protectRoute, getDownlodedNotes); // downloded notes

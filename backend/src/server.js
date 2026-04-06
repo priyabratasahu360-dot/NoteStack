@@ -7,6 +7,7 @@ import { connectDB } from "./lib/db.js";
 
 import authRoutes from "./routes/auth.route.js";
 import noteRoutes from "./routes/note.route.js";
+import userRoutes from "./routes/user.route.js";
 
 const PORT = process.env.PORT;
 
@@ -17,6 +18,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/note", noteRoutes);
+app.use("/api/user", userRoutes);
 
 app.listen(PORT, (req, res) => {
     console.log(`Server is running port ${PORT}`);
