@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getAllNotes, getRecommendedNotes, getSingleNote, getDownlodedNotes, getUploadedNotes, uploadNote, updateExistingNote, deleteSelectedNote } from "../controllers/note.controller.js";
+import { getAllNotes, getRecommendedNotes, getSingleNote, getDownlodedNotes, getUploadedNotes, uploadNote, updateExistingNote, deleteSelectedNote, downloadNote } from "../controllers/note.controller.js";
 import { protectRoute } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
@@ -12,6 +12,7 @@ router.get("/notes/uploaded", protectRoute, getUploadedNotes); // get all notes 
 
 
 router.post("/notes", protectRoute, uploadNote); // create a new note
+router.post("/notes/:id/download",protectRoute, downloadNote); // download a note
 
 router.get("/notes/:id", protectRoute, getSingleNote); // get a specific note by id
 
