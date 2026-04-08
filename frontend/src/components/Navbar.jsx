@@ -20,7 +20,7 @@ export const Navbar = () => {
     setIsDark(true);
   };
   return (
-    <div className="max-lg:collapse bg-primary shadow-sm w-full rounded-md">
+    <div className="max-lg:collapse bg-primary shadow-sm w-full rounded-md sticky top-0 z-1">
       <input id="navbar-1-toggle" className="peer hidden" type="checkbox" />
       <label
         htmlFor="navbar-1-toggle"
@@ -34,16 +34,16 @@ export const Navbar = () => {
           <button className="btn btn-ghost text-xl">NoteStack</button>
         </div>
         <div className="navbar-center hidden lg:flex gap-5">
-          <ul className="menu bg-base-200 lg:menu-horizontal rounded-box flex gap-6">
-                <Link to={"/"} className="flex gap-2">
+          <ul className="menu bg-base-200 lg:menu-horizontal rounded-box flex gap-6 opacity-70">
+                <Link to={"/note"} className="flex gap-2">
                 <RxDashboard className="size-6"/>
                 <span className="font-bold text-lg">Dashboard</span>
                 </Link>
-                <Link to={"/"} className="flex gap-2">
+                <Link to={"/about"} className="flex gap-2">
                 <FcAbout className="size-6"/>
                 <span className="font-bold text-lg">About</span>
                 </Link>
-                <Link to={"/"} className="flex gap-2">
+                <Link to={"/contact"} className="flex gap-2">
                 <MdContactMail className="size-6"/>
                 <span className="font-bold text-lg">Contact</span>
                 </Link>
@@ -92,13 +92,13 @@ export const Navbar = () => {
 
       <div className="collapse-content lg:hidden z-1">
         <ul className="menu w-full">
-          <Link to={"/"} className="bg-base-200 w-full p-4 hover:bg-secondary">
+          <Link to={"/note"} className="bg-base-200 w-full p-4 hover:bg-secondary">
             Dashboard
           </Link>
-          <Link to={"/"} className="bg-base-200 w-full p-4 hover:bg-secondary">
+          <Link to={"/about"} className="bg-base-200 w-full p-4 hover:bg-secondary">
             About
           </Link>
-          <Link to={"/"} className="bg-base-200 w-full p-4 hover:bg-secondary">
+          <Link to={"/contact"} className="bg-base-200 w-full p-4 hover:bg-secondary">
             Contact
           </Link>
         </ul>
