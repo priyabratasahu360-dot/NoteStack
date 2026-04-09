@@ -3,7 +3,7 @@ import { DashboardPage } from "../pages/DashboardPage";
 export const DashBoardLayout = () => {
   return(
     <div>
-      <Sidebar />
+      <Sidebar heading="Dashboard"/>
       <DashboardPage />
     </div>
   )

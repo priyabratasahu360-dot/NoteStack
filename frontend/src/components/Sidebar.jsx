@@ -4,8 +4,9 @@ import { MdFileUpload } from "react-icons/md";
 import { IoIosCreate } from "react-icons/io";
 import { IoMdDownload } from "react-icons/io";
 import { TiHome } from "react-icons/ti";
+import { RxDashboard } from "react-icons/rx";
 
-export const Sidebar = () => {
+export const Sidebar = ({heading}) => {
   return (
     <div className="drawer sticky top-0 z-1">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -27,10 +28,14 @@ export const Sidebar = () => {
               Home
             </Link>
           </div>
-          <div className="mx-2 flex-1 px-2 btn mr-10">Notes</div>
+          <div className="mx-2 flex-1 px-2 btn">{heading}</div>
           <div className="hidden flex-none lg:block">
             <ul className="menu menu-horizontal gap-4">
-              {/* Navbar menu content here */}
+              {/* Navbar menu content */}
+              <Link to={"/note"} className="btn">
+                <RxDashboard className="size-5" />
+                Dashboard
+              </Link>{" "}
               <Link to={"/uploaded"} className="btn">
                 <MdFileUpload className="size-5" />
                 Uploads
@@ -58,6 +63,9 @@ export const Sidebar = () => {
         ></label>
         <ul className="tabs tabs-box flex flex-col bg-base-200 min-h-full w-80 p-4">
           {/* Sidebar content here */}
+          <Link to={"/note"} className="tab">
+            Dashboard
+          </Link>
           <Link to={"/uploaded"} className="tab">
             Uploads
           </Link>

@@ -5,7 +5,7 @@ import { FaNotesMedical } from "react-icons/fa6";
 
 export const Footer = () => {
   return (
-    <footer className="footer footer-horizontal footer-center bg-secondary text-primary-content p-10 sticky bottom-0">
+    <footer className="footer footer-horizontal footer-center bg-secondary text-primary-content p-10">
       <aside>
         <FaNotesMedical className="size-14"/>
         <p className="font-bold text-lg">

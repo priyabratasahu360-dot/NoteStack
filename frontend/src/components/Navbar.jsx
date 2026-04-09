@@ -5,7 +5,7 @@ import { MdOutlineDarkMode } from "react-icons/md";
 import { useState } from "react";
 
 import { RxDashboard } from "react-icons/rx";
-import { FcAbout } from "react-icons/fc";
+import { FaCircleExclamation } from "react-icons/fa6";
 import { MdContactMail } from "react-icons/md";
 
 export const Navbar = () => {
@@ -34,13 +34,13 @@ export const Navbar = () => {
           <button className="btn btn-ghost text-xl">NoteStack</button>
         </div>
         <div className="navbar-center hidden lg:flex gap-5">
-          <ul className="menu bg-base-200 lg:menu-horizontal rounded-box flex gap-6 opacity-70">
+          <ul className="menu bg-base-300 lg:menu-horizontal rounded-box flex gap-12">
                 <Link to={"/note"} className="flex gap-2">
                 <RxDashboard className="size-6"/>
                 <span className="font-bold text-lg">Dashboard</span>
                 </Link>
                 <Link to={"/about"} className="flex gap-2">
-                <FcAbout className="size-6"/>
+                <FaCircleExclamation className="size-6"/>
                 <span className="font-bold text-lg">About</span>
                 </Link>
                 <Link to={"/contact"} className="flex gap-2">
