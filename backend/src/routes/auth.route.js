@@ -14,7 +14,7 @@ router.post("/login", login);
 
 
 //---------- Logout Route ----------//
-router.delete("/logout", logout);
+router.post("/logout", logout);
 
 //---------- Check User Route ----------//
 router.get("/check", protectRoute, checkAuth);

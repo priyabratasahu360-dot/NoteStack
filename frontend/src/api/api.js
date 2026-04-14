@@ -35,3 +35,15 @@ export const loginMutation = async(loginData) => {
         toast.error(error.response.data.message);
     }
 }
+
+export const logout = async() => {
+    try{
+        await axiosInstance.post("/auth/logout");
+        toast.success("Logged out succesfully");
+        return null;
+        
+    }
+    catch(error){
+        console.log("Error in logout function: ", error);
+    }
+}
