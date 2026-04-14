@@ -16,13 +16,22 @@ export const signup = async (req, res) => {
     return res.status(400).json({message: "Please use a valid username with minimum 6 character"});
   }
 
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ message: "Invalid email please use a correct one" });
+  }
+
   if(password.length < 8){
     return res.status(400).json({message: "Password length is too short"});
   }
   try {
     const formattedEmail = email.toLowerCase().trim();
     // Check DB if user already exist
+    const existingName = await User.findOne({userName: userName});
     const existingUser = await User.findOne({ email: formattedEmail });
+
+    if(existingName?.userName === userName){
+      return res.status(400).json({message:"Username already taken"});
+    }
 
     if (existingUser) {
       return res.status(400).json({message: "User already exist"});
@@ -61,6 +70,9 @@ export const login = async (req, res) => {
 
   if(!email || !password){
     return res.status(400).json({message: "All fields required"});
+  }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ message: "please use a proper email" });
   }
   if(password.length < 8){
     return res.status(400).json({message: "Password length must be atleast 8 character"});

@@ -1,4 +1,5 @@
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
+import {Toaster} from "react-hot-toast";
 
 import { SignupPage } from "./pages/SignupPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -8,17 +9,41 @@ import { DashBoardLayout } from "./layout/DashBoardLayout";
 import { UploadedNotesPage } from "./pages/UploadedNotesPage";
 import { CreateNotePage } from "./pages/CreateNotePage";
 import { DownloadedNotesPage } from "./pages/DownloadedNotesPage";
+import { getAuthUser } from "./api/api";
+import { useQuery } from "@tanstack/react-query";
+
 function App() {
+  const {data: authUser} = useQuery({
+    queryKey: ["authUser"],
+    queryFn: getAuthUser
+  });
   return (
+    <div>
     <Routes>
-      <Route path="/" element={<HomeLayout />} />
+      <Route path="/" element={authUser ? 
+        (<HomeLayout />) : 
+        (<Navigate to={"/login"}/>)} />
+
       <Route path="/note" element={<DashBoardLayout />} />
-      <Route path="/signup" element={<SignupPage />} />
-      <Route path="/login" element={<LoginPage />} />
+
+      <Route path="/signup" element={!authUser ? 
+       (<SignupPage />) : 
+       (<Navigate to={"/"}/>)} />
+
+      <Route path="/login" element={!authUser ? 
+      (<LoginPage />) :
+      (<Navigate to={"/"}/>)} />
+
       <Route path="/uploaded" element={<UploadedNotesPage />} />
+
       <Route path="/upload" element={<CreateNotePage />} />
+
       <Route path="/downloads" element={<DownloadedNotesPage />} />
+
     </Routes>
+
+    <Toaster />
+    </div>
   )
 }
 

@@ -1,7 +1,15 @@
 // all available notes
 import { IoMdArrowDropdownCircle, IoMdDownload } from "react-icons/io";
 import { NoteCard } from "../components/NoteCard";
+import { useQuery } from "@tanstack/react-query";
+
+import { getAuthUser } from "../api/api";
 export const NotesPage = () => {
+  const {data:authUser} = useQuery({
+    queryKey: ["authUser"],
+    queryFn: getAuthUser
+  });
+  console.log(authUser);
   return (
    <div className="m-5">
          <p className="py-5 text-2xl opacity-60 tracking-wide">

@@ -1,5 +1,11 @@
 import { Link } from "react-router-dom";
+import { getAuthUser } from "../api/api";
+import { useQuery } from "@tanstack/react-query";
 export const HomePage = () => {
+  const {data: authUser} = useQuery({
+      queryKey: ["authUser"],
+      queryFn: getAuthUser
+    });
   return (
     <div className="min-h-screen">
       {/* top area */}
@@ -13,7 +19,10 @@ export const HomePage = () => {
               us.
             </p>
             <button className="btn btn-primary">
-              <Link to={"/login"}>Get Started</Link>
+              {!authUser ?
+              (<Link to={"/login"}>Get Started</Link>) :
+              (<Link to={"/note"}>Explore More</Link>) //link to dashboard page if authenticated
+              }
             </button>
           </div>
         </div>

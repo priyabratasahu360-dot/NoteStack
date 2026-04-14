@@ -2,8 +2,29 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { loginMutation } from "../api/api";
 
 export const LoginPage = () => {
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: ""
+  });
+
+  const queryClient = useQueryClient();
+
+  const {mutate: mutateLoginMutation} = useMutation({
+    mutationFn: loginMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["authUser"]});
+    }
+  });
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    mutateLoginMutation(loginData);
+  }
   return (
     <div className="flex justify-center items-center flex-col lg:p-4 p-8 gap-10">
       <div className="border p-4 rounded-lg border-base-300 bg-base-300 flex items-center justify-center">
@@ -16,7 +37,11 @@ export const LoginPage = () => {
         <div className="flex flex-col gap-2 w-full">
           {/* email input */}
           <label className="input validator w-full">
-            <input type="email" placeholder="yourmail@gmail.com" required />
+            <input type="email"
+             placeholder="yourmail@gmail.com" 
+             required
+             value={loginData.email}
+             onChange={(e) => setLoginData({...loginData, email: e.target.value})} />
           </label>
           {/* email error message */}
           <div className="validator-hint hidden">Enter valid email address</div>
@@ -29,6 +54,8 @@ export const LoginPage = () => {
               minLength="8"
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
               title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
+              value={loginData.password}
+              onChange={(e) => setLoginData({...loginData, password: e.target.value})}
             />
           </label>
           {/* password error message */}
@@ -39,7 +66,7 @@ export const LoginPage = () => {
             At least one lowercase letter <br />
             At least one uppercase letter
           </p>
-          <button className="btn btn-primary text-lg mt-8">Login</button>
+          <button className="btn btn-primary text-lg mt-8" onClick={handleLogin}>Login</button>
         </div>
         <div className="flex gap-2 justify-center items-center mt-4">
           <p className="font-bold">Dont have an Account ?</p>
