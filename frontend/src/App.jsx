@@ -9,6 +9,7 @@ import { DashBoardLayout } from "./layout/DashBoardLayout";
 import { UploadedNotesPage } from "./pages/UploadedNotesPage";
 import { CreateNotePage } from "./pages/CreateNotePage";
 import { DownloadedNotesPage } from "./pages/DownloadedNotesPage";
+import { ProfilePage } from "./pages/ProfilePage";
 import { getAuthUser } from "./api/api";
 import { useQuery } from "@tanstack/react-query";
 
@@ -33,6 +34,8 @@ function App() {
       <Route path="/login" element={!authUser ? 
       (<LoginPage />) :
       (<Navigate to={"/"}/>)} />
+
+      <Route path="/profile" element={<ProfilePage />}/>
 
       <Route path="/uploaded" element={<UploadedNotesPage />} />
 

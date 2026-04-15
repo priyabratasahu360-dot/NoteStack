@@ -3,6 +3,10 @@ export const updateProfile = async(req, res) => {
     const {profilePhoto, notePreferences} = req.body;
 
     try{
+    if(!profilePhoto || !notePreferences){
+        return res.status(400).json({message: "Please add both photo and atleast one tag"});
+    }
+
         const userId = req.user._id;
 
         const updatedUser = await User.findByIdAndUpdate(userId, {

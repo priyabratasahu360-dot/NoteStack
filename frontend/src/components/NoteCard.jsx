@@ -3,7 +3,7 @@ export const NoteCard = ({author, title, desc, category, tags=[], keywords, time
         <div className="flex flex-col p-4 rounded bg-primary/20">
             {/* content */}
             
-                <span className="font-bold opacity-70 text-xl">{title.toUpperCase()}</span>
+                <span className="font-bold opacity-70 text-xl">{title?.toUpperCase()}</span>
                 <p className="opacity-70">{desc}</p>
                 {/* author with note category */}
                 <div className="flex justify-between my-4 opacity-70">
@@ -12,13 +12,13 @@ export const NoteCard = ({author, title, desc, category, tags=[], keywords, time
                 </div>
             <div className="flex flex-col gap-6">
                 <div className="flex gap-2">
-                    {tags.map((tag) => (
-                        <span className="badge badge-primary px-5 py-4 badge-soft">{tag}</span>
+                    {tags?.map((tag, index) => (
+                        <span className="badge badge-primary px-5 py-4 badge-soft" key={index}>{tag}</span>
                     ))}
                 </div>
                 <div className="flex gap-2">
-                    {keywords.map((keyword) => (
-                        <span className="badge badge-secondary px-5 py-4 badge-soft">{keyword}</span>
+                    {keywords?.map((keyword, index) => (
+                        <span className="badge badge-secondary px-5 py-4 badge-soft" key={index}>{keyword}</span>
                     ))}
                 </div>
             </div>

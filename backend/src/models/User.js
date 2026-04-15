@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
         default: ""
     },
     notePreferences: { // add tags to get recommended based on user profile
-        type: String,
+        type: [String],
     }
 },
 {timestamps: true});

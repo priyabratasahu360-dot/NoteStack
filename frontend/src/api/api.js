@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import { axiosInstance } from "./axios";
 
+//////////////----Auth functions----///////////////////
 export const getAuthUser = async() => {
     try{
         const res = await axiosInstance.get("/auth/check");
@@ -45,5 +46,30 @@ export const logout = async() => {
     }
     catch(error){
         console.log("Error in logout function: ", error);
+    }
+}
+
+/////////////----Notes functions ----/////////////////////
+
+export const getRecommendedNotes = async() => {
+    try{
+        const res = await axiosInstance.get("/note/notes/recommended")
+        return res.data;
+    }
+    catch(error){
+        console.log("Error in notes recommended function: ", error);
+        toast.error(error.response.data.message);
+    }
+}
+
+export const updateProfile = async(profileData) => {
+    try{
+        const res = await axiosInstance.put("/user/update-profile", profileData);
+        toast.success("Profile Updated succesfully")
+        return res.data;
+    }
+    catch(error){
+        console.log("Error in updateProfile function: ", error)
+        toast.error(error.response.data.message);
     }
 }

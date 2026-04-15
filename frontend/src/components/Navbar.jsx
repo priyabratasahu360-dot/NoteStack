@@ -8,6 +8,7 @@ import { RxDashboard } from "react-icons/rx";
 import { FaCircleExclamation } from "react-icons/fa6";
 import { MdContactMail } from "react-icons/md";
 import { IoMdLogOut } from "react-icons/io";
+import { FaUserCircle } from "react-icons/fa";
 
 import { logout } from "../api/api";
 
@@ -57,6 +58,10 @@ export const Navbar = () => {
             <Link to={"/contact"} className="flex gap-2">
               <MdContactMail className="size-6" />
               <span className="font-bold text-lg">Contact</span>
+            </Link>
+            <Link to={"/profile"} className="flex gap-2">
+              <FaUserCircle className="size-6" />
+              <span className="font-bold text-lg">Profile</span>
             </Link>
           </ul>
           <div>
@@ -127,6 +132,12 @@ export const Navbar = () => {
             className="bg-base-200 w-full p-4 hover:bg-secondary"
           >
             Contact
+          </Link>
+          <Link
+            to={"/profile"}
+            className="bg-base-200 w-full p-4 hover:bg-secondary"
+          >
+            Profile
           </Link>
           <Link
             to={"/login"}

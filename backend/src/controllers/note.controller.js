@@ -1,5 +1,6 @@
 import Note from "../models/Note.js";
 import DownloadedNote from "../models/DownloadedNote.js";
+import User from "../models/User.js";
 
 export const getAllNotes = async(req, res) => {
     try{
@@ -25,7 +26,8 @@ export const getRecommendedNotes = async(req, res) => {
             return res.status(404).json({message: "Please update your preferences to get recommended notes"});
         }
         
-        const notes = await Note.find({tags: tags});
+        const notes = await Note.find({tags: tags}).populate("authorId");
+
         res.status(200).json({message: "recommended notes based on your profile", notes});;
     }
     catch(error){
