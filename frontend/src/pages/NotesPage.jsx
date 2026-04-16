@@ -2,14 +2,15 @@
 import { IoMdArrowDropdownCircle, IoMdDownload } from "react-icons/io";
 import { NoteCard } from "../components/NoteCard";
 import { useQuery } from "@tanstack/react-query";
-
-import { getAuthUser } from "../api/api";
+import { getAllAvailableNotes } from "../api/api";
 export const NotesPage = () => {
-  const {data:authUser} = useQuery({
-    queryKey: ["authUser"],
-    queryFn: getAuthUser
+
+  const {data: allNotes} = useQuery({
+    queryKey: ["allNotes"],
+    queryFn: getAllAvailableNotes
   });
-  console.log(authUser);
+
+  // console.log(allNotes)
   return (
    <div className="m-5">
          <p className="py-5 text-2xl opacity-60 tracking-wide">
@@ -24,26 +25,19 @@ export const NotesPage = () => {
            </div>
            <div className="collapse-content text-sm">
              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-               <NoteCard
-                 author="miku"
-                 title="react"
-                 desc="react from basics to advanced"
-                 category="web development"
-                 tags={["#web", "#library", "#js"]}
-                 keywords={["UI", "FRONTEND"]}
-                 time="09-04-2026"
-                 btnContent="Download"
-               />
-               <NoteCard
-                 author="Chiku"
-                 title="Node.js Basics"
-                 desc="Node from basics to advanced"
-                 category="web development"
-                 tags={["#web", "#backend", "#js"]}
-                 keywords={["HTTP", "API", "REST"]}
-                 time="09-04-2026"
-                 btnContent="Download"
-               />
+              {allNotes ? allNotes.notes.map((note, index) => (
+                <NoteCard
+                key={index}
+                author={note.authorId.userName}
+                title={note.title}
+                desc={note.description}
+                category={note.category}
+                tags={note.tags}
+                keywords={note.keywords}
+                time={note.createdAt}
+                btnContent="Download"
+                />
+              )) : "Loading"}
              </div>
            </div>
          </div>

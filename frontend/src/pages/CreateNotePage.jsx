@@ -2,30 +2,73 @@ import { useState } from "react";
 import { Sidebar } from "../components/Sidebar";
 import { GoFileDirectoryFill } from "react-icons/go";
 import { MdFileUpload } from "react-icons/md";
+import { createNote } from "../api/api";
+import { useMutation } from "@tanstack/react-query";
 
 export const CreateNotePage = () => {
+
   const [tagInput, setTagInput] = useState("");
   const [keywordInput, setKeywordInput] = useState("");
   const [tags, setTags] = useState([]);
   const [keywords, setKeywords] = useState([]);
 
+
+  const [noteData, setNoteData] = useState({
+    title: "",
+    category: "",
+    description: "",
+  })
+
+  const [file, setFile] = useState(null);
+
+  
+  ///----------TAGS & KEYWORDS--------///
   const handleAddTag = (e) => {
     e.preventDefault();
     setTags([...tags, tagInput]);
     setTagInput("");
   };
-
+  const handleTagRemove = (toRemove) => {
+    setTags(tags.filter((_, index) => index !== toRemove));
+  };
+  
   const handleAddKeyword = (e) => {
     e.preventDefault();
     setKeywords([...keywords, keywordInput]);
     setKeywordInput("");
   }
-  const handleTagRemove = (toRemove) => {
-    setTags(tags.filter((_, index) => index !== toRemove));
-  };
   const handleKeywordRemove = (toRemove) => {
     setKeywords(keywords.filter((_, index) => index !== toRemove));
   };
+  ///--------------------------------///
+
+
+  ///---------FILE UPLOAD-----------///
+  
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+  }
+  const {mutate: mutateCreateNoteMutation} = useMutation({
+    mutationFn: createNote
+  });
+  
+  const handleUploadNote = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("file", file);
+    formData.append("title", noteData.title);
+    formData.append("category", noteData.category);
+    formData.append("description", noteData.description);
+
+    formData.append("tags", JSON.stringify(tags));
+    formData.append("keywords", JSON.stringify(keywords));
+
+    mutateCreateNoteMutation(formData);
+  }
+  ///------------------------------///
   return (
     <div>
       <Sidebar heading="Create" />
@@ -39,6 +82,8 @@ export const CreateNotePage = () => {
             <label className="label">Title</label>
             <input
               type="text"
+              value={noteData.title}
+              onChange={(e) => setNoteData({...noteData, title: e.target.value})}
               className="input w-full"
               placeholder="Note title"
             />
@@ -47,6 +92,8 @@ export const CreateNotePage = () => {
             <label className="label">Category</label>
             <input
               type="text"
+              value={noteData.category}
+              onChange={(e) => setNoteData({...noteData, category: e.target.value})}
               className="input w-full"
               placeholder="Add a unique category"
             />
@@ -57,6 +104,8 @@ export const CreateNotePage = () => {
               <textarea
                 className="textarea h-24 w-full"
                 placeholder="Type here...."
+                value={noteData.description}
+                onChange={(e) => setNoteData({...noteData, description: e.target.value})}
               ></textarea>
             </fieldset>
           </div>
@@ -109,11 +158,12 @@ export const CreateNotePage = () => {
             <GoFileDirectoryFill className="size-20 absolute top-8 opacity-70" />
             <input
               type="file"
+              onChange={handleFileChange}
               className="file-input file-input-primary absolute bottom-5"
             />
           </div>
           <div className="w-full">
-            <button className="btn bg-primary w-full flex gap-1">
+            <button className="btn bg-primary w-full flex gap-1" onClick={handleUploadNote}>
               <MdFileUpload className="size-5" />
               Upload
             </button>

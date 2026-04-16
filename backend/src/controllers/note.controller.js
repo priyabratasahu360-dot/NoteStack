@@ -1,10 +1,12 @@
 import Note from "../models/Note.js";
 import DownloadedNote from "../models/DownloadedNote.js";
 import User from "../models/User.js";
+import cloudinary from "../lib/Cloudinary.js";
+import fs from "fs";
 
 export const getAllNotes = async(req, res) => {
     try{
-        const notes = await Note.find({}); // get all notes from database in the notes collection
+        const notes = await Note.find({}).populate("authorId", "_id profilePhoto userName"); // get all notes from database in the notes collection
 
         if(!notes){
             return res.status(200).json({message: "No notes available"});
@@ -93,32 +95,41 @@ export const uploadNote = async(req, res) => {
     const {title,
            description,
            category,
-           tags,
-           keywords,
-           files} = req.body;
+           } = req.body;
+
+    const tags = JSON.parse(req.body.tags || "[]");
+    const keywords = JSON.parse(req.body.keywords || "[]");
 
     if(!title || !description){
         return res.status(400).json({message: "Please add a title and description to your note"});
     }
-    if(!files){
-        return res.status(400).json({message: "Please upload your file"});
+    if(!req.file){
+        return res.status(400).json({message: "Please upload your note"});
     }
+
     const authorId = req.user._id; // get the id of current user
     try{    
-        const createNote = await Note.create({
+
+        const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+            resource_type: "raw" // for pdf
+        })
+        const createdNote = await Note.create({
             authorId,
             title,
             description,
             category,
             tags,
             keywords,
-            files
+            fileUrl: uploadResult.secure_url,
+            fileSize: uploadResult.bytes
         });
-            
-        res.status(201).json({message: "Note created succesfully", note: createNote});
+
+        fs.unlinkSync(req.file.path); // clear local file
+
+        res.status(201).json({message: "Note created succesfully", note: createdNote});
         }
         catch(error){
-            console.log("Erroe in uploadNote controller: ", error);
+            console.log("Error in uploadNote controller: ", error);
             return res.status(500).json("Internal server error");
         }
 }

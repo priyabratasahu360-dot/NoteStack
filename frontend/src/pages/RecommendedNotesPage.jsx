@@ -9,7 +9,6 @@ export const RecommendedNotesPage = () => {
     queryKey: ["recommendedNotes"],
     queryFn: getRecommendedNotes
   })
-  console.log(recomNotes)
   return (
     <div className="m-5">
       <p className="py-5 text-2xl opacity-60 tracking-wide">
@@ -35,7 +34,7 @@ export const RecommendedNotesPage = () => {
                   category={note.category}
                   tags={note.tags}
                   keywords={note.keywords}
-                  time={note.createdAT}
+                  time={note.createdAt}
                   btnContent="Download"
                 />
               )) : "No recommended notes available"

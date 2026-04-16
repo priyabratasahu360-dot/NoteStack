@@ -62,6 +62,43 @@ export const getRecommendedNotes = async() => {
     }
 }
 
+export const getAllAvailableNotes = async() => {
+    try{
+        const res = await axiosInstance.get("/note/notes");
+        return res.data;
+    }
+    catch(error){
+        console.log("Error in getAllAvailableNotes function: ", error);
+        toast.error(error.response.data.message);
+    }
+}
+
+export const showAllUploadedNotes = async() => {
+    try{
+        const res = await axiosInstance.get("/note/notes/uploaded");
+        return res.data;
+    }
+    catch(error){
+        console.log("Error in showuploaded notes function: ", error);
+        toast.error(error.response.data.message);
+    }
+}
+
+export const createNote = async(noteData) => {
+    try{
+        const res = await axiosInstance.post("/note/notes", noteData);
+        toast.success("Note created succesfully");
+        return res.data
+    }
+    catch(error){
+        console.log("Error in createNote function: ", error);
+        toast.error(error.response.data.message);
+    }
+}
+
+
+//////////////---- User profile ---- ////////////////
+
 export const updateProfile = async(profileData) => {
     try{
         const res = await axiosInstance.put("/user/update-profile", profileData);

@@ -25,19 +25,12 @@ const noteSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
-    files: [
-        {
-            url: {
-                type:String
-            },
-            type: {
-                type: String
-            },
-            size: {
-                type: Number
-            }
-        }
-    ]
+    fileUrl: {
+        type: String
+    },
+    fileSize: {
+        type: String
+    }
 }, {timestamps: true});
 
 const Note = mongoose.model("Note", noteSchema);
