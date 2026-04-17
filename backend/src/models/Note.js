@@ -30,6 +30,9 @@ const noteSchema = new mongoose.Schema({
     },
     fileSize: {
         type: String
+    },
+    public_id: {
+        type: String
     }
 }, {timestamps: true});
 

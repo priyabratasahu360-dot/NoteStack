@@ -58,7 +58,12 @@ export const getDownlodedNotes = async(req, res) => {
     const userId = req.user._id;
 
     try{
-        const downloadedNotes = await DownloadedNote.find({userId: userId}).populate("noteId"); //auto fetch note data
+        const downloadedNotes = await DownloadedNote.find({userId: userId}).populate({
+            path: "noteId",
+            populate: {
+                path: "authorId"
+            }
+        }); //auto fetch note data
 
         if(downloadedNotes.length === 0){
             return res.status(200).json({message: "There is no notes available"});
@@ -121,7 +126,8 @@ export const uploadNote = async(req, res) => {
             tags,
             keywords,
             fileUrl: uploadResult.secure_url,
-            fileSize: uploadResult.bytes
+            fileSize: uploadResult.bytes,
+            public_id: uploadResult.public_id
         });
 
         fs.unlinkSync(req.file.path); // clear local file
@@ -193,7 +199,7 @@ export const downloadNote = async(req, res) => {
     try{
         const note = await Note.findById(noteId);
         if(!note){
-            return res.status(404).json({message: "Something went wrong"});
+            return res.status(404).json({message: "Note not found"});
         }
 
         const addToDownloadedNote = await DownloadedNote.create({
@@ -201,7 +207,7 @@ export const downloadNote = async(req, res) => {
             noteId: noteId,
         });
 
-        res.status(201).json({message: "note succesfully added to downloaded note list", addedNote: addToDownloadedNote});
+        res.status(201).json({message: "note succesfully added to downloaded note list", Url: note.fileUrl});
 
     }
     catch(error){

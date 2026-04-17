@@ -1,14 +1,44 @@
 import { IoMdDownload } from "react-icons/io";
 import { NoteCard } from "../components/NoteCard";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getRecommendedNotes } from "../api/api";
+import { downloadNote } from "../api/api";
 
 export const RecommendedNotesPage = () => {
+
   const {data: recomNotes} = useQuery({
     queryKey: ["recommendedNotes"],
     queryFn: getRecommendedNotes
-  })
+  });
+
+  const {mutate: mutateDownloadMutation} = useMutation({
+    mutationFn: downloadNote,
+    onSuccess: async(data) => {
+      console.log(data);
+
+      if(data?.Url){
+        const res = await fetch(data.Url);
+        const blob = await res.blob();
+
+        const blobUrl = window.URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = "note.pdf";
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        window.URL.revokeObjectURL(blobUrl);
+      }
+    }
+  });
+
+   const handleDownloadNote = async(id) => {
+      mutateDownloadMutation(id);
+    }
   return (
     <div className="m-5">
       <p className="py-5 text-2xl opacity-60 tracking-wide">
@@ -36,6 +66,7 @@ export const RecommendedNotesPage = () => {
                   keywords={note.keywords}
                   time={note.createdAt}
                   btnContent="Download"
+                  handleClick={() => handleDownloadNote(note._id)}
                 />
               )) : "No recommended notes available"
             }

@@ -1,6 +1,6 @@
 import { convertToLocal } from "../utils/utils"
 
-export const NoteCard = ({author, title, desc, category, tags=[], keywords, time, btnContent}) => {
+export const NoteCard = ({author, title, desc, category, tags=[], keywords, time, btnContent, handleClick}) => {
     return(
         <div className="flex flex-col p-4 rounded bg-primary/20">
             {/* content */}
@@ -25,7 +25,7 @@ export const NoteCard = ({author, title, desc, category, tags=[], keywords, time
                 </div>
             </div>
             <span className="text-sm my-4 opacity-50">{convertToLocal(time)}</span>
-            <button className="btn btn-primary opacity-70">{btnContent}</button>
+            <button className="btn btn-primary opacity-70" onClick={handleClick}>{btnContent}</button>
             
         </div>
     )

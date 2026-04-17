@@ -1,14 +1,42 @@
 // all available notes
 import { IoMdArrowDropdownCircle, IoMdDownload } from "react-icons/io";
 import { NoteCard } from "../components/NoteCard";
-import { useQuery } from "@tanstack/react-query";
-import { getAllAvailableNotes } from "../api/api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { downloadNote, getAllAvailableNotes } from "../api/api";
 export const NotesPage = () => {
 
   const {data: allNotes} = useQuery({
     queryKey: ["allNotes"],
     queryFn: getAllAvailableNotes
   });
+
+  const {mutate: mutateDownloadMutation} = useMutation({
+    mutationFn: downloadNote,
+    onSuccess: async(data) => {
+      console.log(data);
+
+      if(data?.Url){
+        const res = await fetch(data.Url);
+        const blob = await res.blob();
+
+        const blobUrl = window.URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = "note.pdf";
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        window.URL.revokeObjectURL(blobUrl);
+      }
+    }
+  })
+
+   const handleDownloadNote = async(id) => {
+      mutateDownloadMutation(id);
+    }
 
   // console.log(allNotes)
   return (
@@ -36,6 +64,7 @@ export const NotesPage = () => {
                 keywords={note.keywords}
                 time={note.createdAt}
                 btnContent="Download"
+                handleClick={() => handleDownloadNote(note._id)}
                 />
               )) : "Loading"}
              </div>

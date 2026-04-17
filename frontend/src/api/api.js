@@ -96,6 +96,28 @@ export const createNote = async(noteData) => {
     }
 }
 
+export const downloadNote = async(noteId) => {
+    try{
+        const res = await axiosInstance.post(`/note/notes/${noteId}/download`);
+        toast.success("Note downloaded succesfully");
+        return res.data;
+    }
+    catch(error){
+        console.log("Error in downloadNote function: ", error);
+        toast.error(error.response.data.message);
+    }
+}
+
+export const showAllDownloadedNotes = async() => {
+    try{
+        const res = await axiosInstance.get("/note/notes/downloaded");
+        return res.data;
+    }
+    catch(error){
+        console.log("Error in showAllDownloadedNotes function: ", error);
+        toast.error(error.response.data.message);
+    }
+}
 
 //////////////---- User profile ---- ////////////////
 

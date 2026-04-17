@@ -13,7 +13,9 @@ export const UploadedNotesPage = () => {
     queryKey: ["uploadedNote"],
     queryFn: showAllUploadedNotes
   });
-  console.log(uploaded)
+  // console.log(uploaded);
+
+  const handleDelete = () => {};
   return (
     <>
       <Sidebar heading="Uploaded by You" />
@@ -21,8 +23,8 @@ export const UploadedNotesPage = () => {
         <p className="py-5 text-2xl opacity-60 tracking-wide">Uploaded Notes</p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          {uploaded?.uploadedNotes.length > 0 ? 
-          uploaded.uploadedNotes.map((note, index) => (
+          {uploaded?.uploadedNotes?.length > 0 ? 
+          uploaded?.uploadedNotes?.map((note, index) => (
             <NoteCard
             key={index}
             author="You"
@@ -31,8 +33,9 @@ export const UploadedNotesPage = () => {
             category={note.category}
             tags={note.tags}
             keywords={note.keywords}
-            time={note.time}
+            time={note.createdAt}
             btnContent="Delete"
+            handleClick={handleDelete}
             />
           )) : "You haven't uploaded any notes yet."}
         </div>
