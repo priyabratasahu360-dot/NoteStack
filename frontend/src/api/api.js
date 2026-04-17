@@ -119,6 +119,18 @@ export const showAllDownloadedNotes = async() => {
     }
 }
 
+export const deleteSelectedNote = async(noteId) => {
+    try{
+        const res = await axiosInstance.delete(`/note/notes/${noteId}`);
+        toast.success("Note deleted succesfully");
+        return res.data;
+    }
+    catch(error){
+        console.log("Error in deleteSelectedNote function: ", error);
+        toast.error(error.response.data.message);
+    }
+}
+
 //////////////---- User profile ---- ////////////////
 
 export const updateProfile = async(profileData) => {

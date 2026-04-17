@@ -4,8 +4,9 @@ import { FaReact } from "react-icons/fa";
 import { RiNodejsLine } from "react-icons/ri";
 import { TbBrandCSharp } from "react-icons/tb";
 import { NoteCard } from "../components/NoteCard";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { showAllUploadedNotes } from "../api/api";
+import { deleteSelectedNote } from "../api/api";
 
 export const UploadedNotesPage = () => {
 
@@ -15,7 +16,18 @@ export const UploadedNotesPage = () => {
   });
   // console.log(uploaded);
 
-  const handleDelete = () => {};
+  const queryClient = useQueryClient();
+
+  const {mutate: mutateDeleteNoteMutation} = useMutation({
+    mutationFn: deleteSelectedNote,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["uploadedNote"]});
+    }
+  })
+
+  const handleDelete = (id) => {
+    mutateDeleteNoteMutation(id);
+  };
   return (
     <>
       <Sidebar heading="Uploaded by You" />
@@ -35,7 +47,7 @@ export const UploadedNotesPage = () => {
             keywords={note.keywords}
             time={note.createdAt}
             btnContent="Delete"
-            handleClick={handleDelete}
+            handleClick={() => handleDelete(note._id)}
             />
           )) : "You haven't uploaded any notes yet."}
         </div>
