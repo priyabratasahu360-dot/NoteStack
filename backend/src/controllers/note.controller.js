@@ -68,7 +68,12 @@ export const getDownlodedNotes = async(req, res) => {
         if(downloadedNotes.length === 0){
             return res.status(200).json({message: "There is no notes available"});
         }
-        res.status(200).json({message: "Your downloaded notes", downloadedNotes});
+        
+        //filtered note 
+        //If a user delete their uploaded note noteId becomes null so we filter where noteId is not null
+        const filteredNotes = downloadedNotes.filter(note => note.noteId !== null); 
+
+        res.status(200).json({message: "Your downloaded notes", filteredNotes});
     }
     catch(error){
         console.log("Error in getDownloaded notes: ", error);

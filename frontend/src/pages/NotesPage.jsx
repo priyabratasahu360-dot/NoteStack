@@ -1,19 +1,28 @@
-// all available notes
-import { IoMdArrowDropdownCircle, IoMdDownload } from "react-icons/io";
-import { NoteCard } from "../components/NoteCard";
+//EXTERNAL LIBRARIES
 import { useMutation, useQuery } from "@tanstack/react-query";
+
+//API FUNCTIONS
 import { downloadNote, getAllAvailableNotes } from "../api/api";
+
+//PAGE COMPONENTS
+import { NoteCard } from "../components/NoteCard";
+
+//ASSETS (Icons)
+import { IoMdArrowDropdownCircle, IoMdDownload } from "react-icons/io";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
 export const NotesPage = () => {
 
-  const {data: allNotes} = useQuery({
+  const {data: allNotes, isPending} = useQuery({
     queryKey: ["allNotes"],
     queryFn: getAllAvailableNotes
   });
-
+  // console.log(allNotes);
+  
   const {mutate: mutateDownloadMutation} = useMutation({
     mutationFn: downloadNote,
     onSuccess: async(data) => {
-      console.log(data);
+      // console.log(data);
 
       if(data?.Url){
         const res = await fetch(data.Url);
@@ -38,7 +47,6 @@ export const NotesPage = () => {
       mutateDownloadMutation(id);
     }
 
-  // console.log(allNotes)
   return (
    <div className="m-5">
          <p className="py-5 text-2xl opacity-60 tracking-wide">
@@ -53,7 +61,10 @@ export const NotesPage = () => {
            </div>
            <div className="collapse-content text-sm">
              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-              {allNotes ? allNotes.notes.map((note, index) => (
+              {isPending ? 
+              (<AiOutlineLoading3Quarters className="size-8 animate-spin"/>) : 
+              (allNotes.notes.length > 0 ? 
+                allNotes.notes.map((note, index) => (
                 <NoteCard
                 key={index}
                 author={note.authorId.userName}
@@ -66,7 +77,8 @@ export const NotesPage = () => {
                 btnContent="Download"
                 handleClick={() => handleDownloadNote(note._id)}
                 />
-              )) : "Loading"}
+              )) : 
+              "No notes available")}
              </div>
            </div>
          </div>

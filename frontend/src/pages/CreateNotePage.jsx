@@ -1,15 +1,23 @@
+////LIBRARIES & EXTERNAL TOOLS
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+
+//API FUNCTIONS
+import { createNote } from "../api/api";
+
+//PAGE COMPONENTS
 import { Sidebar } from "../components/Sidebar";
+
+//ASSETS (Icons)
 import { GoFileDirectoryFill } from "react-icons/go";
 import { MdFileUpload } from "react-icons/md";
-import { createNote } from "../api/api";
-import { useMutation } from "@tanstack/react-query";
 
 export const CreateNotePage = () => {
 
   const [tagInput, setTagInput] = useState("");
-  const [keywordInput, setKeywordInput] = useState("");
   const [tags, setTags] = useState([]);
+  
+  const [keywordInput, setKeywordInput] = useState("");
   const [keywords, setKeywords] = useState([]);
 
 

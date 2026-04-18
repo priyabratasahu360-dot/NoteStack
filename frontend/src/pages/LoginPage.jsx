@@ -1,10 +1,15 @@
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
-
+//EXTERNAL LIBRARIES
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+//API FUNCTIONS
 import { loginMutation } from "../api/api";
+
+//ASSETS (Icons)
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
+
 
 export const LoginPage = () => {
   const [loginData, setLoginData] = useState({
@@ -68,12 +73,14 @@ export const LoginPage = () => {
           </p>
           <button className="btn btn-primary text-lg mt-8" onClick={handleLogin}>Login</button>
         </div>
+
         <div className="flex gap-2 justify-center items-center mt-4">
           <p className="font-bold">Dont have an Account ?</p>
           <Link to={"/signup"} className="font-bold text-secondary">
             SIGNUP
           </Link>
         </div>
+        {/* Optional login method to be implemented */}
         <div className="flex flex-col gap-2 mt-8 border-t border-primary">
           {/* GitHub */}
           <button className="btn bg-black text-white border-black">

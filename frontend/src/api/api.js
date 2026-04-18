@@ -135,7 +135,7 @@ export const deleteSelectedNote = async(noteId) => {
 
 export const updateProfile = async(profileData) => {
     try{
-        const res = await axiosInstance.put("/user/update-profile", profileData);
+        const res = await axiosInstance.patch("/user/update-profile", profileData);
         toast.success("Profile Updated succesfully")
         return res.data;
     }

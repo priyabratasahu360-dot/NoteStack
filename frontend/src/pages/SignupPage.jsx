@@ -1,31 +1,36 @@
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
-
+//EXTERNAL LIBRARIES
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+//API FUNCTIONS
 import { signupMutation } from "../api/api";
+
+//ASSETS (Icons)
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 export const SignupPage = () => {
   const [signupData, setSignupData] = useState({
     userName: "",
     email: "",
-    password: ""
+    password: "",
   });
 
   const queryClient = useQueryClient();
-  const {mutate:mutateSignupMutation, isPending} = useMutation({
+
+  const { mutate: mutateSignupMutation, isPending } = useMutation({
     mutationFn: signupMutation,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["authUser"]});
-    }
-  })
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+    },
+  });
 
   const handleSignup = (e) => {
     e.preventDefault();
     mutateSignupMutation(signupData);
-  }
+  };
   return (
     <div className="flex justify-center items-center flex-col lg:p-4 p-8 gap-10">
       <div className="border p-4 rounded-lg border-base-300 bg-base-300 flex items-center justify-center">
@@ -36,31 +41,38 @@ export const SignupPage = () => {
           <h3 className="text-2xl font-bold text-center">Create Account</h3>
         </div>
         <div className="flex flex-col gap-2 w-full">
-            <label className="input validator w-full">
-          <input
-            type="text"
-            required
-            placeholder="Username"
-            pattern="[A-Za-z][A-Za-z0-9\-]*"
-            minLength="4"
-            maxLength="10"
-            title="Only letters, numbers or dash"
-            value = {signupData.userName}
-            onChange = {(e) => setSignupData({...signupData, userName: e.target.value})}
+          <label className="input validator w-full">
+            {/* username input */}
+            <input
+              type="text"
+              required
+              placeholder="Username"
+              pattern="[A-Za-z][A-Za-z0-9\-]*"
+              minLength="4"
+              maxLength="10"
+              title="Only letters, numbers or dash"
+              value={signupData.userName}
+              onChange={(e) =>
+                setSignupData({ ...signupData, userName: e.target.value })
+              }
             />
-          <p className="validator-hint">
-            Must be 4 to 10 characters
-            <br />
-            containing only letters, numbers or dash
-          </p>
-            </label>
+            <p className="validator-hint">
+              Must be 4 to 10 characters
+              <br />
+              containing only letters, numbers or dash
+            </p>
+          </label>
           {/* email input */}
           <label className="input validator w-full">
-            <input type="email"
-             placeholder="yourmail@gmail.com"
-            required
-            value = {signupData.email}
-            onChange={(e) => setSignupData({...signupData, email: e.target.value})} />
+            <input
+              type="email"
+              placeholder="yourmail@gmail.com"
+              required
+              value={signupData.email}
+              onChange={(e) =>
+                setSignupData({ ...signupData, email: e.target.value })
+              }
+            />
           </label>
           {/* email error message */}
           <div className="validator-hint hidden">Enter valid email address</div>
@@ -73,8 +85,10 @@ export const SignupPage = () => {
               minLength="8"
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
               title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
-              value = {signupData.password}
-              onChange={(e) => setSignupData({...signupData, password: e.target.value})}
+              value={signupData.password}
+              onChange={(e) =>
+                setSignupData({ ...signupData, password: e.target.value })
+              }
             />
           </label>
           {/* password error message */}
@@ -85,11 +99,19 @@ export const SignupPage = () => {
             At least one lowercase letter <br />
             At least one uppercase letter
           </p>
-          <button className="btn btn-primary text-lg mt-8" onClick={handleSignup}>
-            {isPending ? 
-            (<AiOutlineLoading3Quarters className="size-6"/>) : "Create Account"}
+          <button
+            className="btn btn-primary text-lg mt-8"
+            onClick={handleSignup}
+          >
+            {isPending ? (
+              <AiOutlineLoading3Quarters className="size-6" />
+            ) : (
+              "Create Account"
+            )}
           </button>
         </div>
+
+        {/* Optional account create method to be implementd */}
         <div className="flex gap-2 justify-center items-center mt-4">
           <p className="font-bold">Already have an Account ?</p>
           <Link to={"/login"} className="font-bold text-secondary">

@@ -3,16 +3,22 @@ export const updateProfile = async(req, res) => {
     const {profilePhoto, notePreferences} = req.body;
 
     try{
-    if(!profilePhoto || !notePreferences){
-        return res.status(400).json({message: "Please add both photo and atleast one tag"});
-    }
-
         const userId = req.user._id;
 
-        const updatedUser = await User.findByIdAndUpdate(userId, {
-            profilePhoto: profilePhoto,
-            notePreferences: notePreferences
-        }, {returnDocument: "after"}).select("-password");
+        const updateData = {};
+        if(profilePhoto) {
+            updateData.profilePhoto = profilePhoto;
+        }
+        if(notePreferences && notePreferences.length > 0){
+            updateData.$addToSet = {
+                notePreferences: {$each: notePreferences}
+            }
+        }
+        if(Object.keys(updateData).length === 0){
+            return res.status(400).json({message: "No data passed to update profile"});
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(userId, updateData, {returnDocument: "after"}).select("-password");
 
         if(!updatedUser){
             return res.status(404).json({message: "User not found"});

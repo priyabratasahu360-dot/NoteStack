@@ -1,17 +1,24 @@
+//LIBRARIES & EXTERNAL TOOLS
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 
-import { SignupPage } from "./pages/SignupPage";
-import { LoginPage } from "./pages/LoginPage";
+//API FUNCTIONS
+import { getAuthUser } from "./api/api";
 
+//LAYOUTS(Wrapper for pages)
 import { HomeLayout } from "./layout/HomeLayout";
 import { DashBoardLayout } from "./layout/DashBoardLayout";
+
+//PAGE COMPONENTS
+import { SignupPage } from "./pages/SignupPage";
+import { LoginPage } from "./pages/LoginPage";
 import { UploadedNotesPage } from "./pages/UploadedNotesPage";
 import { CreateNotePage } from "./pages/CreateNotePage";
 import { DownloadedNotesPage } from "./pages/DownloadedNotesPage";
 import { ProfilePage } from "./pages/ProfilePage";
-import { getAuthUser } from "./api/api";
-import { useQuery } from "@tanstack/react-query";
+import { AboutPage } from "./pages/AboutPage";
+import { ContactPage } from "./pages/ContactPage";
 
 function App() {
   const { data: authUser } = useQuery({
@@ -23,7 +30,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={authUser ? <HomeLayout /> : <Navigate to={"/login"} />}
+          element={<HomeLayout />}
         />
 
         <Route path="/note" element={authUser ? <DashBoardLayout /> : (<Navigate to={"/login"}/>)} />
@@ -59,6 +66,20 @@ function App() {
           path="/downloads"
           element={
             authUser ? <DownloadedNotesPage /> : <Navigate to={"/login"} />
+          }
+        />
+
+        <Route
+          path="/contact"
+          element={
+            authUser ? <ContactPage /> : <Navigate to={"/login"} />
+          }
+        />
+
+        <Route
+          path="/about"
+          element={
+            <AboutPage />
           }
         />
       </Routes>

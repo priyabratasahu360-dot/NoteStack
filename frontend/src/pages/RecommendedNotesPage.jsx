@@ -1,9 +1,15 @@
-import { IoMdDownload } from "react-icons/io";
-import { NoteCard } from "../components/NoteCard";
-import { IoMdArrowDropdownCircle } from "react-icons/io";
+//EXTERNAL LIBRARIES
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getRecommendedNotes } from "../api/api";
-import { downloadNote } from "../api/api";
+
+//PAGE COMPONENTS
+import { NoteCard } from "../components/NoteCard";
+
+//API FUNCTIONS
+import { getRecommendedNotes, downloadNote } from "../api/api";
+
+//ASSETS (Icons)
+import { IoMdDownload } from "react-icons/io";
+import { IoMdArrowDropdownCircle } from "react-icons/io";
 
 export const RecommendedNotesPage = () => {
 
@@ -15,7 +21,7 @@ export const RecommendedNotesPage = () => {
   const {mutate: mutateDownloadMutation} = useMutation({
     mutationFn: downloadNote,
     onSuccess: async(data) => {
-      console.log(data);
+      // console.log(data);
 
       if(data?.Url){
         const res = await fetch(data.Url);

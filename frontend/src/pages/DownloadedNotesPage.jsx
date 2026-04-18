@@ -1,16 +1,24 @@
-import { IoOpen } from "react-icons/io5";
-import { Sidebar } from "../components/Sidebar";
-import { NoteCard } from "../components/NoteCard";
+//EXTERNAL LIBRARIES
 import { useQuery } from "@tanstack/react-query";
 
+//API FUNCTIONS
 import { showAllDownloadedNotes } from "../api/api";
 
+//PAGE COMPONENTS
+import { Sidebar } from "../components/Sidebar";
+import { NoteCard } from "../components/NoteCard";
+
+//ASSETS (Icons)
+import { IoOpen } from "react-icons/io5";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
+
 export const DownloadedNotesPage = () => {
-  const { data: downloadedNotes } = useQuery({
+  const { data: downloadedNotes, isPending } = useQuery({
     queryKey: ["downloadedNote"],
     queryFn: showAllDownloadedNotes,
   });
-  console.log(downloadedNotes);
+  // console.log(downloadedNotes);
   return (
     <>
       <Sidebar heading="Downloads" />
@@ -20,8 +28,8 @@ export const DownloadedNotesPage = () => {
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          {downloadedNotes?.downloadedNotes.length > 0
-            ? downloadedNotes?.downloadedNotes.map((note, index) => (
+          {isPending ? <AiOutlineLoading3Quarters className="size-8 animate-spin"/> : (downloadedNotes?.filteredNotes.length > 0
+            ? downloadedNotes?.filteredNotes.map((note, index) => (
                 <NoteCard
                   key={index}
                   author={note.noteId.authorId.userName}
@@ -34,7 +42,7 @@ export const DownloadedNotesPage = () => {
                   btnContent="View"
                 />
               ))
-            : "No downloaded notes available"}
+            : "No downloaded notes available")}
         </div>
       </div>
     </>

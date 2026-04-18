@@ -1,9 +1,16 @@
+//EXTERNAL LIBRARIES
 import { useState } from "react";
-import { updateProfile } from "../api/api";
-import { FaCamera } from "react-icons/fa";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAuthUser } from "../api/api";
+
+//API FUNCTIONS
+import { updateProfile, getAuthUser } from "../api/api";
+
+//PAGE COMPONENTS
 import { Sidebar } from "../components/Sidebar";
+
+//ASSETS (Icons)
+import { FaCamera } from "react-icons/fa";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export const ProfilePage = () => {
   const [tagInput, setTagInput] = useState("");
@@ -13,10 +20,11 @@ export const ProfilePage = () => {
 
   const queryClient = useQueryClient();
 
-  const { data: authUser } = useQuery({
+  const { data: authUser, isPending } = useQuery({
     queryKey: ["authUser"],
     queryFn: getAuthUser,
   });
+  // console.log(authUser);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -51,6 +59,7 @@ export const ProfilePage = () => {
 
   const handleAddTag = () => {
     setTags([...tags, tagInput]);
+    setTagInput("");
   };
 
   const handleTagRemove = (toRemove) => {
@@ -91,13 +100,25 @@ export const ProfilePage = () => {
               <label>
                 Username
                 <div className="input w-full">{authUser?.userName}</div>{" "}
-                {/* user name */}
               </label>
+
               {/* email */}
               <label>
                 Email
                 <div className="input w-full">{authUser?.email}</div>{" "}
               </label>
+
+              <div className="flex flex-col gap-2">
+                <p className="font-bold">Preferences</p>
+                <div className="flex gap-2">
+                {authUser ? (
+                  authUser.notePreferences.map((tag, index) => (
+                    <span className="badge badge-primary" key={index}>{tag}</span>
+                  ))) : ""}
+                  </div>
+              </div>
+
+              {/* tags */}
               <label>
                 <div className="flex flex-col">
                   <span>Add tags</span>
@@ -126,8 +147,8 @@ export const ProfilePage = () => {
             </li>
           </ul>
 
-          {/* submit */}
-          <button className="btn w-full bg-primary" onClick={handleSaveChanges}>
+          {/* submit button */}
+          <button className="btn w-full bg-primary" onClick={handleSaveChanges} disabled={isPending}>
             Save Changes
           </button>
         </div>

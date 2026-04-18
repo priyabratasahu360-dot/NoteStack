@@ -1,12 +1,18 @@
-import { MdDelete } from "react-icons/md";
+//EXTERNAL LIBRARIES
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+//PAGE COMPONENTS
 import { Sidebar } from "../components/Sidebar";
+import { NoteCard } from "../components/NoteCard";
+
+//API FUNCTIONS
+import { showAllUploadedNotes, deleteSelectedNote } from "../api/api";
+
+//ASSETS (Icons)
+import { MdDelete } from "react-icons/md";
 import { FaReact } from "react-icons/fa";
 import { RiNodejsLine } from "react-icons/ri";
 import { TbBrandCSharp } from "react-icons/tb";
-import { NoteCard } from "../components/NoteCard";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { showAllUploadedNotes } from "../api/api";
-import { deleteSelectedNote } from "../api/api";
 
 export const UploadedNotesPage = () => {
 

@@ -1,6 +1,10 @@
+//EXTERNAL LIBRARIES
 import { Link } from "react-router-dom";
-import { getAuthUser } from "../api/api";
 import { useQuery } from "@tanstack/react-query";
+
+//API FUNCTIONS
+import { getAuthUser } from "../api/api";
+
 export const HomePage = () => {
   const {data: authUser} = useQuery({
       queryKey: ["authUser"],
