@@ -29,7 +29,7 @@ export const DownloadedNotesPage = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {isPending ? <AiOutlineLoading3Quarters className="size-8 animate-spin"/> : (downloadedNotes?.filteredNotes.length > 0
-            ? downloadedNotes?.filteredNotes.map((note, index) => (
+            ? downloadedNotes?.filteredNotes?.map((note, index) => (
                 <NoteCard
                   key={index}
                   author={note.noteId.authorId.userName}
