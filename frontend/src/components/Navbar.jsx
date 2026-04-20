@@ -2,7 +2,6 @@ import { TfiAlignLeft } from "react-icons/tfi";
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineLightMode } from "react-icons/md";
 import { MdOutlineDarkMode } from "react-icons/md";
-import { useState } from "react";
 
 import { RxDashboard } from "react-icons/rx";
 import { FaCircleExclamation } from "react-icons/fa6";
@@ -11,28 +10,26 @@ import { IoMdLogOut } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 
 import { logout } from "../api/api";
+import { useThemeSelector } from "../hooks/useThemeSelector";
 
 export const Navbar = () => {
-  const [isDark, setIsDark] = useState(true);
+
+  const {isDark, toggleTheme} = useThemeSelector();
 
   const navigate = useNavigate();
-
-  const handleThemeToLight = (e) => {
-    e.preventDefault();
-    setIsDark(false);
-  };
-  const handleThemeToDark = (e) => {
-    e.preventDefault();
-    setIsDark(true);
-  };
 
   const handleLogout = (e) => {
     e.preventDefault();
     logout();
     navigate("/login")
   }
+
+  const handleChangeTheme = () => {
+    toggleTheme();
+  }
+
   return (
-    <div className="max-lg:collapse bg-primary shadow-sm w-full rounded-md sticky top-0 z-1">
+    <div className={`max-lg:collapse ${isDark ? "bg-black text-white": "bg-gray-300 text-black"} shadow-sm w-full rounded-md sticky top-0 z-1`}>
       <input id="navbar-1-toggle" className="peer hidden" type="checkbox" />
       <label
         htmlFor="navbar-1-toggle"
@@ -46,7 +43,7 @@ export const Navbar = () => {
           <button className="btn btn-ghost text-xl">NoteStack</button>
         </div>
         <div className="navbar-center hidden lg:flex gap-5">
-          <ul className="menu bg-base-300 lg:menu-horizontal rounded-box flex gap-12">
+          <ul className={`menu ${isDark ? "bg-base-200 text-white" : "bg-gray-400 text-black"} lg:menu-horizontal rounded-box flex gap-12`}>
             <Link to={"/note"} className="flex gap-2">
               <RxDashboard className="size-6" />
               <span className="font-bold text-lg">Dashboard</span>
@@ -64,30 +61,32 @@ export const Navbar = () => {
               <span className="font-bold text-lg">Profile</span>
             </Link>
           </ul>
-          <div>
-            <label className="swap swap-rotate">
-              {/* this hidden checkbox controls the state */}
-              <input type="checkbox" />
-
-              {/* light mode */}
-              <MdOutlineLightMode className="size-6 swap-on" />
-
-              {/* Dark mode */}
-              <MdOutlineDarkMode className="size-6 swap-off" />
-            </label>
-          </div>
-        </div>
-        {/* for small screen */}
-        <div className="navbar-center lg:hidden">
+          <div className={`navbar-center ${isDark ? "bg-black text-white": "bg-gray-300 text-black"}`}>
           {isDark ? (
             <button
               className="btn btn-soft btn-circle"
-              onClick={handleThemeToLight}
+              onClick={handleChangeTheme}
             >
               <MdOutlineLightMode className="size-6" />
             </button>
           ) : (
-            <button className="btn btn-circle" onClick={handleThemeToDark}>
+            <button className="btn btn-circle" onClick={handleChangeTheme}>
+              <MdOutlineDarkMode className="size-6" />
+            </button>
+          )}
+        </div>
+        </div>
+        {/* for small screen */}
+        <div className={`navbar-center ${isDark ? "bg-black text-white": "bg-gray-300 text-black"} lg:hidden`}>
+          {isDark ? (
+            <button
+              className="btn btn-soft btn-circle"
+              onClick={handleChangeTheme}
+            >
+              <MdOutlineLightMode className="size-6" />
+            </button>
+          ) : (
+            <button className="btn btn-circle" onClick={handleChangeTheme}>
               <MdOutlineDarkMode className="size-6" />
             </button>
           )}
@@ -96,7 +95,7 @@ export const Navbar = () => {
           <div className="join">
             <div>
               <div>
-                <input className="input join-item" placeholder="Search" />
+                <input className={`input join-item ${isDark ? "bg-black" : "bg-white text-black"}`} placeholder="Search" />
               </div>
             </div>
             <div className="indicator">
@@ -113,35 +112,35 @@ export const Navbar = () => {
       </div>
 
       {/* smaller screen view */}
-      <div className="collapse-content lg:hidden z-1">
+      <div className={`collapse-content lg:hidden z-1`}>
         <ul className="menu w-full">
           <Link
             to={"/note"}
-            className="bg-base-200 w-full p-4 hover:bg-secondary"
+            className={`bg-base-200 w-full p-4 hover:bg-secondary ${isDark ? "bg-black text-white": "bg-white text-black"}`}
           >
             Dashboard
           </Link>
           <Link
             to={"/about"}
-            className="bg-base-200 w-full p-4 hover:bg-secondary"
+            className={`bg-base-200 w-full p-4 hover:bg-secondary ${isDark ? "bg-black text-white": "bg-white text-black"}`}
           >
             About
           </Link>
           <Link
             to={"/contact"}
-            className="bg-base-200 w-full p-4 hover:bg-secondary"
+            className={`bg-base-200 w-full p-4 hover:bg-secondary ${isDark ? "bg-black text-white": "bg-white text-black"}`}
           >
             Contact
           </Link>
           <Link
             to={"/profile"}
-            className="bg-base-200 w-full p-4 hover:bg-secondary"
+            className={`bg-base-200 w-full p-4 hover:bg-secondary ${isDark ? "bg-black text-white": "bg-white text-black"}`}
           >
             Profile
           </Link>
           <Link
             to={"/login"}
-            className="bg-red-700 w-full p-4 hover:bg-red-900"
+             className={`bg-base-200 w-full p-4 hover:bg-secondary ${isDark ? "bg-black text-red-500": "bg-white text-red-500"}`}
             onClick={handleLogout}
           >
             Logout
