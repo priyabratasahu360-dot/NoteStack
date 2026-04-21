@@ -75,6 +75,7 @@ export const NotesPage = () => {
                 keywords={note.keywords}
                 time={note.createdAt}
                 btnContent="Download"
+                previewImage={note.previewImage}
                 handleClick={() => handleDownloadNote(note._id)}
                 />
               )) : 

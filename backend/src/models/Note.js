@@ -33,6 +33,9 @@ const noteSchema = new mongoose.Schema({
     },
     public_id: {
         type: String
+    },
+    previewImage: {
+        type: String
     }
 }, {timestamps: true});
 

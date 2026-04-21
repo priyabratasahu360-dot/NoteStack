@@ -20,6 +20,8 @@ export const CreateNotePage = () => {
   const [keywordInput, setKeywordInput] = useState("");
   const [keywords, setKeywords] = useState([]);
 
+  const [src, setSrc] = useState(null);
+
 
   const [noteData, setNoteData] = useState({
     title: "",
@@ -55,6 +57,15 @@ export const CreateNotePage = () => {
   
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
+    if(selectedFile.type.startsWith("image/")){
+      const url = URL.createObjectURL(selectedFile);
+      setSrc(url);
+    }
+    if(selectedFile.type ===  "application/pdf"){
+      const url = URL.createObjectURL(selectedFile);
+      setSrc(url);
+
+    }
     setFile(selectedFile);
   }
   const {mutate: mutateCreateNoteMutation} = useMutation({
@@ -163,12 +174,24 @@ export const CreateNotePage = () => {
             </div>
           </div>
           <div className="h-50 w-full input flex justify-center relative">
-            <GoFileDirectoryFill className="size-20 absolute top-8 opacity-70" />
+            {!file ? 
+            <GoFileDirectoryFill className="size-20 absolute top-8 opacity-70" /> : ""
+            }
             <input
               type="file"
               onChange={handleFileChange}
               className="file-input file-input-primary absolute bottom-5"
             />
+            <div>
+              {!src && <p className="mt-6">Choose a file to upload</p>}
+              {file && file.type.startsWith("image/") && (
+                <img src={src} alt="image preview" className="object-contain size-40 mb-4"/>
+              )}
+
+              {file && file.type === "application/pdf" && (
+                <iframe src={src} frameborder="0"></iframe>
+              )}
+            </div>
           </div>
           <div className="w-full">
             <button className="btn bg-primary w-full flex gap-1" onClick={handleUploadNote}>

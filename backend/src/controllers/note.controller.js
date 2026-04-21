@@ -119,10 +119,22 @@ export const uploadNote = async(req, res) => {
 
     const authorId = req.user._id; // get the id of current user
     try{    
+        const isImage = req.file.mimetype.startsWith("image/");
+        const isPdf = req.file.mimetype === "application/pdf";
 
         const uploadResult = await cloudinary.uploader.upload(req.file.path, {
-            resource_type: "raw" // for pdf
-        })
+            resource_type: "image" // for pdf
+        });
+
+        let previewImage = "";
+
+        if(isImage){
+            previewImage = uploadResult.secure_url;
+        }
+        else if(isPdf){
+            //generates first page from pdf
+            previewImage = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/pg_1,w_800,q_auto,f_auto/${uploadResult.public_id}.jpg`;
+        }
         const createdNote = await Note.create({
             authorId,
             title,
@@ -132,7 +144,8 @@ export const uploadNote = async(req, res) => {
             keywords,
             fileUrl: uploadResult.secure_url,
             fileSize: uploadResult.bytes,
-            public_id: uploadResult.public_id
+            public_id: uploadResult.public_id,
+            previewImage
         });
 
         fs.unlinkSync(req.file.path); // clear local file
