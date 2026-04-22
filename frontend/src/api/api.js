@@ -131,6 +131,17 @@ export const deleteSelectedNote = async(noteId) => {
     }
 }
 
+export const getSearchedNotes = async(searchInput) => {
+    try{
+        const res = await axiosInstance.get(`/note/notes/search?query=${searchInput}`);
+        return res.data;
+    }
+    catch(error){
+        console.log("Error in getSearched notes function: ", error);
+        toast.error(error.response.data.message);
+    }
+}
+
 //////////////---- User profile ---- ////////////////
 
 export const updateProfile = async(profileData) => {

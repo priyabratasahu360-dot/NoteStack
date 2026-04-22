@@ -233,3 +233,28 @@ export const downloadNote = async(req, res) => {
         return res.status(500).json({message: "Internal Server error"});
     }
 }
+
+export const searchedNotes = async(req, res) => {
+    const {query} = req.query;
+
+    if(!query){
+        return res.status(404).json({message: "No note found", notes: []});
+    }
+
+    try{
+        const notes = await Note.find({
+            $or: [
+                {title: {$regex: query, $options: "i"}},
+                {description: {$regex: query, $options: "i"}},
+                {tags: {$regex: query, $options: "i"}},
+                {description: {$regex: query, $options: "i"}}
+            ]
+        }).populate("authorId", "userName");
+
+        res.status(200).json({message: "Your searched notes", notes: notes});
+    }
+    catch{
+        console.log("Error in searchedNotes controller: ", error);
+        return res.status(500).json({message: "Internal server error"});
+    }
+}

@@ -53,6 +53,7 @@ export const UploadedNotesPage = () => {
             keywords={note.keywords}
             time={note.createdAt}
             btnContent="Delete"
+            previewImage={note.previewImage}
             handleClick={() => handleDelete(note._id)}
             />
           )) : "You haven't uploaded any notes yet."}

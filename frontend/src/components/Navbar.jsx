@@ -11,8 +11,11 @@ import { FaUserCircle } from "react-icons/fa";
 
 import { logout } from "../api/api";
 import { useThemeSelector } from "../hooks/useThemeSelector";
+import { useState } from "react";
 
 export const Navbar = () => {
+
+  const [searchInput, setSearchInput] = useState("");
 
   const {isDark, toggleTheme} = useThemeSelector();
 
@@ -26,6 +29,10 @@ export const Navbar = () => {
 
   const handleChangeTheme = () => {
     toggleTheme();
+  }
+
+  const handleSearch = async() => {
+    navigate(`/?query=${searchInput}`)
   }
 
   return (
@@ -95,11 +102,16 @@ export const Navbar = () => {
           <div className="join">
             <div>
               <div>
-                <input className={`input join-item ${isDark ? "bg-black" : "bg-white text-black"}`} placeholder="Search" />
+                <input 
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                className={`input join-item ${isDark ? "bg-black" : "bg-white text-black"}`} placeholder="Search" />
               </div>
             </div>
             <div className="indicator">
-              <button className="btn join-item">Search</button>
+              <button 
+              onClick={handleSearch}
+              className="btn join-item">Search</button>
             </div>
           </div>
           <button className="hidden lg:flex btn" onClick={handleLogout}>
