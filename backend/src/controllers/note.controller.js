@@ -23,12 +23,13 @@ export const getRecommendedNotes = async(req, res) => {
     try{
         const user = req.user;
 
-        const tags = user?.notePreferences; // notePreferences contain tags
-        if(!tags){
+        const tags = user?.notePreferences;
+        // console.log(tags); // notePreferences contain tags
+        if(!tags || tags.length === 0){
             return res.status(404).json({message: "Please update your preferences to get recommended notes"});
         }
         
-        const notes = await Note.find({tags: tags}).populate("authorId");
+        const notes = await Note.find({tags: {$in: tags}}).populate("authorId");
 
         res.status(200).json({message: "recommended notes based on your profile", notes});;
     }

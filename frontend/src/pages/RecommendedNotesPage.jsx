@@ -18,6 +18,8 @@ export const RecommendedNotesPage = () => {
     queryFn: getRecommendedNotes
   });
 
+  // console.log(recomNotes);
+
   const {mutate: mutateDownloadMutation} = useMutation({
     mutationFn: downloadNote,
     onSuccess: async(data) => {
@@ -72,6 +74,7 @@ export const RecommendedNotesPage = () => {
                   keywords={note.keywords}
                   time={note.createdAt}
                   btnContent="Download"
+                  previewImage={note.previewImage}
                   handleClick={() => handleDownloadNote(note._id)}
                 />
               )) : "No recommended notes available"
