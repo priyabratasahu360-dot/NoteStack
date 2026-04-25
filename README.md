@@ -122,7 +122,6 @@ __________________________________________________________________
 ## Future Improvements
 
 * OAuth(google, github)
-* Search functionality
 * Clean UI/UX
 
 ## Live on render

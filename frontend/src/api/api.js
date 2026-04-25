@@ -58,7 +58,8 @@ export const getRecommendedNotes = async() => {
     }
     catch(error){
         console.log("Error in notes recommended function: ", error);
-        toast.error(error.response.data.message);
+        toast.success(error.response.data.message);
+        return null;
     }
 }
 

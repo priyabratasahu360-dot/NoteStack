@@ -4,6 +4,8 @@ dotenv.config();
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
+import passport from "passport";
+import "./lib/OAuth.js"
 
 import { connectDB } from "./lib/db.js";
 
@@ -22,6 +24,8 @@ app.use(cors({
     credentials: true
 }))
 app.use(cookieParser());
+
+app.use(passport.initialize());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/note", noteRoutes);
