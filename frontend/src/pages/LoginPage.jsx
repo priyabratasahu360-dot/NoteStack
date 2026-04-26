@@ -31,11 +31,13 @@ export const LoginPage = () => {
     mutateLoginMutation(loginData);
   }
 
+  const url = import.meta.env.MODE === "development" ? "http://localhost:5000/api/auth/google" : "/api/auth/google";
+
   const loginWithGoogle = () => {
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = url;
   }
   return (
-    <div className="flex justify-center items-center flex-col lg:p-4 p-8 gap-10">
+    <div className="flex justify-center items-center flex-col lg:p-4 p-2 gap-10">
       <div className="border p-4 rounded-lg border-base-300 bg-base-300 flex items-center justify-center">
         <img src="../src/assets/hero.png" className="size-30 " />
       </div>
