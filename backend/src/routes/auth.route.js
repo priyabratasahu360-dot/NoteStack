@@ -29,7 +29,7 @@ router.get("/google", passport.authenticate("google", {
 router.get("/google/callback", passport.authenticate("google", {session: false}), (req, res) => {
     const userId = req.user._id;
     const token = generateTokenAndSetCookie(userId, res);
-    res.redirect("http://localhost:5173");
+    res.redirect("https://notestack-53pa.onrender.com");
 })
 
 export default router;
