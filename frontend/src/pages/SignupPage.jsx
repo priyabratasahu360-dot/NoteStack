@@ -31,6 +31,12 @@ export const SignupPage = () => {
     e.preventDefault();
     mutateSignupMutation(signupData);
   };
+
+  const url = import.meta.env.MODE === "development" ? "http://localhost:5000/api/auth/google" : "/api/auth/google";
+
+  const loginWithGoogle = () => {
+    window.location.href = url;
+  }
   return (
     <div className="flex justify-center items-center flex-col lg:p-4 p-8 gap-10">
       <div className="border p-4 rounded-lg border-base-300 bg-base-300 flex items-center justify-center">
@@ -125,7 +131,7 @@ export const SignupPage = () => {
             Signup with GitHub
           </button>
           {/* Google */}
-          <button className="btn bg-white text-black border-[#e5e5e5]">
+          <button className="btn bg-white text-black border-[#e5e5e5]" onClick={loginWithGoogle}>
             <FcGoogle className="size-5" />
             Signup with Google
           </button>

@@ -12,6 +12,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { logout } from "../api/api";
 import { useThemeSelector } from "../hooks/useThemeSelector";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const Navbar = () => {
 
@@ -20,11 +21,14 @@ export const Navbar = () => {
   const {isDark, toggleTheme} = useThemeSelector();
 
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  const handleLogout = (e) => {
+  const handleLogout = async(e) => {
     e.preventDefault();
-    logout();
-    navigate("/login")
+    await logout();
+    queryClient.setQueryData(["authUser"], null);
+    queryClient.invalidateQueries({queryKey: ["authUser"]});
+    navigate("/login");
   }
 
   const handleChangeTheme = () => {
