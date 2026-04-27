@@ -13,7 +13,7 @@ export const NoteCard = ({
   handleClick,
 }) => {
   return (
-    <div className="flex flex-col p-4 rounded bg-primary/20">
+    <div className="flex flex-col p-4 rounded">
       {/* content */}
 
       <span className="font-bold opacity-70 text-xl">

@@ -24,9 +24,9 @@ export const HomePage = () => {
     queryFn: getAuthUser,
   });
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-base-100 text-base-content">
       {/* top area */}
-      <div className="hero bg-base-200 py-20">
+      <div className="hero py-20">
         <div className="hero-content text-center">
           <div className="max-w-md">
             <h1 className="text-5xl font-bold">Why NoteStack ?</h1>

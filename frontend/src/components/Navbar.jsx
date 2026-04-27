@@ -10,15 +10,17 @@ import { IoMdLogOut } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 
 import { logout } from "../api/api";
-import { useThemeSelector } from "../hooks/useThemeSelector";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+
+import { useThemeSelector } from "../hooks/useThemeSelector";
 
 export const Navbar = () => {
 
   const [searchInput, setSearchInput] = useState("");
 
   const {isDark, toggleTheme} = useThemeSelector();
+
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -31,16 +33,13 @@ export const Navbar = () => {
     navigate("/login");
   }
 
-  const handleChangeTheme = () => {
-    toggleTheme();
-  }
-
   const handleSearch = async() => {
     navigate(`/?query=${searchInput}`)
   }
+  console.log(isDark)
 
   return (
-    <div className={`max-lg:collapse ${isDark ? "bg-black text-white": "bg-gray-300 text-black"} shadow-sm w-full rounded-md sticky top-0 z-1`}>
+    <div className={`max-lg:collapse shadow-sm w-full rounded-md sticky top-0 z-1 bg-base-100 text-base-content`}>
       <input id="navbar-1-toggle" className="peer hidden" type="checkbox" />
       <label
         htmlFor="navbar-1-toggle"
@@ -54,7 +53,7 @@ export const Navbar = () => {
           <button className="btn btn-ghost text-xl">NoteStack</button>
         </div>
         <div className="navbar-center hidden lg:flex gap-5">
-          <ul className={`menu ${isDark ? "bg-base-200 text-white" : "bg-gray-400 text-black"} lg:menu-horizontal rounded-box flex gap-12`}>
+          <ul className={`menu lg:menu-horizontal rounded-box flex gap-12`}>
             <Link to={"/note"} className="flex gap-2">
               <RxDashboard className="size-6" />
               <span className="font-bold text-lg">Dashboard</span>
@@ -72,35 +71,23 @@ export const Navbar = () => {
               <span className="font-bold text-lg">Profile</span>
             </Link>
           </ul>
-          <div className={`navbar-center ${isDark ? "bg-black text-white": "bg-gray-300 text-black"}`}>
-          {isDark ? (
+          <div className={`navbar-center`}>
             <button
               className="btn btn-soft btn-circle"
-              onClick={handleChangeTheme}
+              onClick={toggleTheme}
             >
               <MdOutlineLightMode className="size-6" />
             </button>
-          ) : (
-            <button className="btn btn-circle" onClick={handleChangeTheme}>
-              <MdOutlineDarkMode className="size-6" />
-            </button>
-          )}
         </div>
         </div>
-        {/* for small screen */}
-        <div className={`navbar-center ${isDark ? "bg-black text-white": "bg-gray-300 text-black"} lg:hidden`}>
-          {isDark ? (
+        {/* for small screen theme change icon*/}
+        <div className={`navbar-center lg:hidden`}>
             <button
               className="btn btn-soft btn-circle"
-              onClick={handleChangeTheme}
+              onClick={toggleTheme}
             >
               <MdOutlineLightMode className="size-6" />
             </button>
-          ) : (
-            <button className="btn btn-circle" onClick={handleChangeTheme}>
-              <MdOutlineDarkMode className="size-6" />
-            </button>
-          )}
         </div>
         <div className="navbar-end gap-5">
           <div className="join">
@@ -109,7 +96,7 @@ export const Navbar = () => {
                 <input 
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                className={`input join-item ${isDark ? "bg-black" : "bg-white text-black"}`} placeholder="Search" />
+                className={`input bg-base-100 text-base-content join-item`} placeholder="Search" />
               </div>
             </div>
             <div className="indicator">
@@ -127,36 +114,36 @@ export const Navbar = () => {
         </div>
       </div>
 
-      {/* smaller screen view */}
+      {/* smaller screen view navbar item*/}
       <div className={`collapse-content lg:hidden z-1`}>
         <ul className="menu w-full">
           <Link
             to={"/note"}
-            className={`bg-base-200 w-full p-4 hover:bg-secondary ${isDark ? "bg-black text-white": "bg-white text-black"}`}
+            className={`bg-base-200 w-full p-4 hover:bg-secondary`}
           >
             Dashboard
           </Link>
           <Link
             to={"/about"}
-            className={`bg-base-200 w-full p-4 hover:bg-secondary ${isDark ? "bg-black text-white": "bg-white text-black"}`}
+            className={`bg-base-200 w-full p-4 hover:bg-secondary`}
           >
             About
           </Link>
           <Link
             to={"/contact"}
-            className={`bg-base-200 w-full p-4 hover:bg-secondary ${isDark ? "bg-black text-white": "bg-white text-black"}`}
+            className={`bg-base-200 w-full p-4 hover:bg-secondary`}
           >
             Contact
           </Link>
           <Link
             to={"/profile"}
-            className={`bg-base-200 w-full p-4 hover:bg-secondary ${isDark ? "bg-black text-white": "bg-white text-black"}`}
+            className={`bg-base-200 w-full p-4 hover:bg-secondary`}
           >
             Profile
           </Link>
           <Link
             to={"/login"}
-             className={`bg-base-200 w-full p-4 hover:bg-secondary ${isDark ? "bg-black text-red-500": "bg-white text-red-500"}`}
+             className={`bg-base-200 w-full p-4 hover:bg-secondary`}
             onClick={handleLogout}
           >
             Logout
