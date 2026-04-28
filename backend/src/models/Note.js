@@ -36,7 +36,11 @@ const noteSchema = new mongoose.Schema({
     },
     previewImage: {
         type: String
-    }
+    },
+    downloads: {
+        type: Number,
+        default: 0
+    },
 }, {timestamps: true});
 
 const Note = mongoose.model("Note", noteSchema);

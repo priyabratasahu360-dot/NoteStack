@@ -10,6 +10,7 @@ __________________________________________________________________
 * Light and Dark theme for better UX 
 * Auth based routing system to protect user information
 * Tags and keywords for recommendation notes
+* google OAuth 
 
 __________________________________________________________________
 
@@ -92,6 +93,8 @@ NoteStack/
 │   │   │  └── Sidebar.jsx
 │   │   ├── hooks
 │   │   │   └── useThemeSelector.js
+│   │   │   └── ThemeProvider.jsx
+│   │   │   └── themeContext.js
 │   │   ├── layout   
 │   │   │    └── DashBoardLayout.jsx
 │   │   │    └── HomeLayout.jsx
@@ -121,7 +124,7 @@ __________________________________________________________________
 
 ## Future Improvements
 
-* OAuth(google, github)
+* OAuth(github)
 * Clean UI/UX
 
 ## Live on render

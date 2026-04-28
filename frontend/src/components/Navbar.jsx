@@ -36,7 +36,13 @@ export const Navbar = () => {
   const handleSearch = async() => {
     navigate(`/?query=${searchInput}`)
   }
-  console.log(isDark)
+
+  const navbarLinkItem = [
+    {to: "/note", text: "Dashboard"},
+    {to: "/about", text: "About"},
+    {to: "/contact", text: "Contact"},
+    {to: "/profile", text: "Profile"},
+  ]
 
   return (
     <div className={`max-lg:collapse shadow-sm w-full rounded-md sticky top-0 z-1 bg-base-100 text-base-content`}>
@@ -71,22 +77,28 @@ export const Navbar = () => {
               <span className="font-bold text-lg">Profile</span>
             </Link>
           </ul>
-          <div className={`navbar-center`}>
+          <div className={`navbar-center mx-5`}>
             <button
               className="btn btn-soft btn-circle"
               onClick={toggleTheme}
             >
-              <MdOutlineLightMode className="size-6" />
+               {isDark ? 
+              <MdOutlineLightMode className="size-6" />:
+              <MdOutlineDarkMode className="size-6"/>
+            }
             </button>
         </div>
         </div>
         {/* for small screen theme change icon*/}
-        <div className={`navbar-center lg:hidden`}>
+        <div className={`navbar-center lg:hidden mx-5`}>
             <button
               className="btn btn-soft btn-circle"
               onClick={toggleTheme}
             >
-              <MdOutlineLightMode className="size-6" />
+              {isDark ? 
+              <MdOutlineLightMode className="size-6" />:
+              <MdOutlineDarkMode className="size-6"/>
+            }
             </button>
         </div>
         <div className="navbar-end gap-5">
@@ -117,33 +129,14 @@ export const Navbar = () => {
       {/* smaller screen view navbar item*/}
       <div className={`collapse-content lg:hidden z-1`}>
         <ul className="menu w-full">
-          <Link
-            to={"/note"}
-            className={`bg-base-200 w-full p-4 hover:bg-secondary`}
-          >
-            Dashboard
-          </Link>
-          <Link
-            to={"/about"}
-            className={`bg-base-200 w-full p-4 hover:bg-secondary`}
-          >
-            About
-          </Link>
-          <Link
-            to={"/contact"}
-            className={`bg-base-200 w-full p-4 hover:bg-secondary`}
-          >
-            Contact
-          </Link>
-          <Link
-            to={"/profile"}
-            className={`bg-base-200 w-full p-4 hover:bg-secondary`}
-          >
-            Profile
-          </Link>
+          {navbarLinkItem.map((item, index) => (
+            <Link to={item.to} key={index} className="bg-base-200 w-full p-4 hover:bg-base-100 text-base-content">
+              {item.text}
+            </Link>
+          ))}
           <Link
             to={"/login"}
-             className={`bg-base-200 w-full p-4 hover:bg-secondary`}
+             className={`bg-base-200 w-full p-4 hover:bg-red-900 hover:text-white`}
             onClick={handleLogout}
           >
             Logout

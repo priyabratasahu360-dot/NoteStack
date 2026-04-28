@@ -226,6 +226,10 @@ export const downloadNote = async(req, res) => {
             noteId: noteId,
         });
 
+        note.downloads += 1;
+
+        await note.save();
+
         res.status(201).json({message: "note succesfully added to downloaded note list", Url: note.fileUrl});
 
     }
@@ -256,6 +260,33 @@ export const searchedNotes = async(req, res) => {
     }
     catch{
         console.log("Error in searchedNotes controller: ", error);
+        return res.status(500).json({message: "Internal server error"});
+    }
+}
+
+export const getStats = async(req, res) => {
+    try{
+        // count total users
+        const totalUsers = await User.countDocuments();
+
+        // total downloads from all notes
+        const result = await Note.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    totalDownloads: {
+                        $sum: "$downloads"
+                    }
+                }
+            }
+        ]);
+
+        const totalDownloads = result.length > 0 ? result[0].totalDownloads : 0;
+
+        res.status(200).json({message: "Application stats", totalUsers, totalDownloads});
+    }
+    catch(error){
+        console.log("Error in getStats controller", error);
         return res.status(500).json({message: "Internal server error"});
     }
 }

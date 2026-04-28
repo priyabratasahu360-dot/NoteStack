@@ -143,6 +143,17 @@ export const getSearchedNotes = async(searchInput) => {
     }
 }
 
+export const getAppStats = async() => {
+    try{
+        const res = await axiosInstance.get("/note/notes/stats");
+        return res.data;
+    }
+    catch(error){
+        console.log("Error in getAppStats function", error);
+        toast.error(error.response.data.message);
+    }
+}
+
 //////////////---- User profile ---- ////////////////
 
 export const updateProfile = async(profileData) => {

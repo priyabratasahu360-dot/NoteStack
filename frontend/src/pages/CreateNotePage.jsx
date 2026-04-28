@@ -194,7 +194,7 @@ export const CreateNotePage = () => {
             </div>
           </div>
           <div className="w-full">
-            <button className="btn bg-primary w-full flex gap-1" onClick={handleUploadNote}>
+            <button className="btn bg-primary text-white w-full flex gap-1" onClick={handleUploadNote}>
               <MdFileUpload className="size-5" />
               Upload
             </button>

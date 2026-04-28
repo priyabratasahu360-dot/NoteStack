@@ -1,21 +1,31 @@
+import { useQuery } from "@tanstack/react-query";
+import { getAppStats } from "../api/api";
+
 //PAGE COMPONENTS
 import { NotesPage } from "./NotesPage";
 import { RecommendedNotesPage } from "./RecommendedNotesPage";
 
 export const DashboardPage = () => {
+
+  const { data: stats } = useQuery({
+    queryKey: ["appStats"],
+    queryFn: getAppStats,
+  });
+
+  // console.log(stats);
   return (
     <div>
       <div className="shadow flex flex-col lg:flex-row">
         <div className="stat place-items-center">
           <div className="stat-title">Downloads</div>
-          <div className="stat-value">31K</div>
+          <div className="stat-value">{stats?.totalDownloads}</div>
           <div className="stat-desc">From January 1st to February 1st</div>
         </div>
 
         <div className="stat place-items-center">
           <div className="stat-title">Users</div>
-          <div className="stat-value text-secondary">4,200</div>
-          <div className="stat-desc text-secondary">↗︎ 40 (2%)</div>
+          <div className="stat-value text-secondary">{stats?.totalUsers}</div>
+          <div className="stat-desc text-secondary">↗︎ {stats?.totalUsers} (100%)</div>
         </div>
       </div>
       <RecommendedNotesPage />

@@ -38,11 +38,11 @@ export const LoginPage = () => {
   }
   return (
     <div className="flex justify-center items-center flex-col lg:p-4 p-2 gap-10">
-      <div className="border p-4 rounded-lg border-base-300 bg-base-300 flex items-center justify-center">
+      <div className="border p-4 rounded-lg border-base-300 bg-base-100 text-base-content flex items-center justify-center">
         <img src="../src/assets/hero.png" className="size-30 " />
       </div>
-      <div className="border border-base-300 bg-base-200 p-2 rounded-lg w-full lg:max-w-2xl">
-        <div className="border-b-2 bg-primary mb-8 p-6 rounded-lg">
+      <div className="border bg-base-200 text-base-content p-2 rounded-lg w-full lg:max-w-2xl">
+        <div className="border-b-2 bg-base-100 text-base-content mb-8 p-6 rounded-lg">
           <h3 className="text-2xl font-bold text-center">Welcome Back !</h3>
         </div>
         <div className="flex flex-col gap-2 w-full">

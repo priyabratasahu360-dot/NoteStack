@@ -1,5 +1,5 @@
 //EXTERNAL LIBRARIES
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 //API FUNCTIONS
 import { downloadNote, getAllAvailableNotes } from "../api/api";
@@ -13,15 +13,18 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export const NotesPage = () => {
 
+  const queryClient = useQueryClient();
+
   const {data: allNotes, isPending} = useQuery({
     queryKey: ["allNotes"],
     queryFn: getAllAvailableNotes
   });
   // console.log(allNotes);
-  
+
   const {mutate: mutateDownloadMutation} = useMutation({
     mutationFn: downloadNote,
     onSuccess: async(data) => {
+      queryClient.invalidateQueries({queryKey: ["appStats"]})
       // console.log(data);
 
       if(data?.Url){

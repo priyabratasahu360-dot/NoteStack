@@ -1,7 +1,7 @@
 import express from "express";
 import multer from "multer";
 
-import { getAllNotes, searchedNotes, getRecommendedNotes, getSingleNote, getDownlodedNotes, getUploadedNotes, uploadNote, updateExistingNote, deleteSelectedNote, downloadNote } from "../controllers/note.controller.js";
+import { getAllNotes, searchedNotes, getRecommendedNotes, getSingleNote, getDownlodedNotes, getUploadedNotes, uploadNote, updateExistingNote, deleteSelectedNote, downloadNote, getStats } from "../controllers/note.controller.js";
 import { protectRoute } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
@@ -10,6 +10,8 @@ const upload = multer({dest: "uploads/"})
 router.get("/notes", getAllNotes); // get all available notes 
 
 router.get("/notes/search", protectRoute, searchedNotes);
+
+router.get("/notes/stats", protectRoute, getStats); // get all users and total downloads
 
 router.get("/notes/recommended", protectRoute, getRecommendedNotes); // get recommended note based on your profile
 router.get("/notes/downloaded", protectRoute, getDownlodedNotes); // downloded notes
