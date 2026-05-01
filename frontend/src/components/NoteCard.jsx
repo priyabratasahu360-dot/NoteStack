@@ -5,7 +5,7 @@ export const NoteCard = ({
   title,
   desc,
   category,
-  tags = [],
+  tags,
   keywords,
   time,
   btnContent,

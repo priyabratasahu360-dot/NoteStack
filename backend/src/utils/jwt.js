@@ -5,7 +5,7 @@ export const generateTokenAndSetCookie = (userId, res) => {
         const token = jwt.sign(
             {userId}, // payload 
             process.env.JWT_SECRET_KEY, // secret key
-            {expiresIn: "15m"} // expire time 'm - minutes'
+            {expiresIn: "1d"} // expire time 'm - minutes'
         );
         
         // Set token inside cookie
@@ -13,7 +13,7 @@ export const generateTokenAndSetCookie = (userId, res) => {
             httpOnly: true, // prevents XSS attacks
             secure: false, // true in https protocol
             sameSite: "strict",
-            maxAge: 15 * 60 * 1000 // 15min * 60sec * 1000ms
+            maxAge: 1 * 24 * 60 * 60 * 1000 
         });
         
         return token;

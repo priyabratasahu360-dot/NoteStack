@@ -43,6 +43,12 @@ export const Navbar = () => {
     {to: "/contact", text: "Contact"},
     {to: "/profile", text: "Profile"},
   ]
+  const navbarLinkItemWithIcon = [
+    {to: "/note", text: "Dashboard", icon: <RxDashboard className="size-6"/>},
+    {to: "/about", text: "About", icon: <FaCircleExclamation className="size-6"/>},
+    {to: "/contact", text: "Contact", icon: <MdContactMail className="size-6"/>},
+    {to: "/profile", text: "Profile", icon: <FaUserCircle className="size-6"/>},
+  ]
 
   return (
     <div className={`max-lg:collapse shadow-sm w-full rounded-md sticky top-0 z-1 bg-base-100 text-base-content`}>
@@ -58,24 +64,14 @@ export const Navbar = () => {
           </label>
           <button className="btn btn-ghost text-xl">NoteStack</button>
         </div>
+        {/* navbar with icon for larger screen view */}
         <div className="navbar-center hidden lg:flex gap-5">
           <ul className={`menu lg:menu-horizontal rounded-box flex gap-12`}>
-            <Link to={"/note"} className="flex gap-2">
-              <RxDashboard className="size-6" />
-              <span className="font-bold text-lg">Dashboard</span>
-            </Link>
-            <Link to={"/about"} className="flex gap-2">
-              <FaCircleExclamation className="size-6" />
-              <span className="font-bold text-lg">About</span>
-            </Link>
-            <Link to={"/contact"} className="flex gap-2">
-              <MdContactMail className="size-6" />
-              <span className="font-bold text-lg">Contact</span>
-            </Link>
-            <Link to={"/profile"} className="flex gap-2">
-              <FaUserCircle className="size-6" />
-              <span className="font-bold text-lg">Profile</span>
-            </Link>
+            {navbarLinkItemWithIcon.map((item, index) => (
+              <Link to={item.to} key={index} className="flex gap-2">
+                <span className="font-semibold text-lg">{item.text}</span>
+              </Link>
+            ))}
           </ul>
           <div className={`navbar-center mx-5`}>
             <button

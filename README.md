@@ -49,6 +49,21 @@ npm install
 ```bash
 npm run dev
 ```
+### required configurations inside
+
+JWT_SECRET_KEY=your_key
+PORT=5000
+MONGO_CONN_URL= mongoDB connection url
+
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
+GOOGLE_CLIENT_SECRET=
+GOOGLE_CLIENT_ID=
+
+CLIENT_URL=http://localhost:5173
+SERVER_URL=http://localhost:5000
 
 __________________________________________________________________
 
@@ -65,6 +80,7 @@ NoteStack/
 │       ├── lib
 │       │  └── Cloudinary.js
 │       │  └── db.js
+│       │  └── OAuth.js
 │       ├── middleware
 │       │   └── auth.middleware.js
 │       ├── models   
