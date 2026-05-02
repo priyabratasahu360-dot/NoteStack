@@ -1,52 +1,31 @@
 import { convertToLocal } from "../utils/utils";
 
+import { FaUserCircle } from "react-icons/fa";
+
 export const NoteCard = ({
   author,
   title,
   desc,
   category,
-  tags,
-  keywords,
   time,
   btnContent,
   previewImage,
   handleClick,
 }) => {
   return (
-    <div className="flex flex-col p-4 rounded">
+    <div className="flex flex-1 flex-col p-4 rounded border">
       {/* content */}
 
-      <span className="font-bold opacity-70 text-xl">
+      <span className="font-bold opacity-90 text-xl">
         {title?.toUpperCase()}
       </span>
       <p className="opacity-70">{desc}</p>
       {/* author with note category */}
-      <div className="flex justify-between my-4 opacity-70">
-        <span>{category}</span>
-        <span>{`By ${author}`}</span>
-      </div>
-      <div className="flex flex-col gap-6">
-        <div className="flex gap-2">
-          {tags?.map((tag, index) => (
-            <span
-              className="badge badge-primary px-5 py-4 badge-soft"
-              key={index}
-            >{`#${tag}`}</span>
-          ))}
-        </div>
-        <div className="flex gap-2">
-          {keywords?.map((keyword, index) => (
-            <span
-              className="badge badge-secondary px-5 py-4 badge-soft"
-              key={index}
-            >
-              {keyword.toUpperCase()}
-            </span>
-          ))}
-        </div>
+      <div className="badge badge-soft badge-primary mt-2">
+        <span>{category.toUpperCase()}</span>
       </div>
 
-      <div className="relative h-48 w-full overflow-hidden rounded-xl group mt-4">
+      <div className="relative h-48 w-full border overflow-hidden rounded-xl group mt-2">
         {previewImage ? (
           <img
             src={previewImage}
@@ -67,10 +46,16 @@ export const NoteCard = ({
         </div>
       </div>
 
-      <span className="text-sm my-4 opacity-50">{convertToLocal(time)}</span>
-      <button className="btn btn-primary opacity-70" onClick={handleClick}>
-        {btnContent}
-      </button>
+      <span className="text-sm my-2 opacity-50">{convertToLocal(time)}</span>
+      <span className="badge badge-success text-white mb-2">
+        <FaUserCircle className="size-4" />
+        {`${author}`}
+      </span>
+      <div>
+        <button className="bg-base-200 text-primary p-1 rounded-full" onClick={handleClick}>
+          {btnContent}
+        </button>
+      </div>
     </div>
   );
 };

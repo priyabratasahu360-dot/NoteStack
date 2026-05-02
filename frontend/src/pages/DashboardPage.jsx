@@ -15,19 +15,6 @@ export const DashboardPage = () => {
   // console.log(stats);
   return (
     <div>
-      <div className="shadow flex flex-col lg:flex-row">
-        <div className="stat place-items-center">
-          <div className="stat-title">Downloads</div>
-          <div className="stat-value">{stats?.totalDownloads}</div>
-          <div className="stat-desc">From January 1st to February 1st</div>
-        </div>
-
-        <div className="stat place-items-center">
-          <div className="stat-title">Users</div>
-          <div className="stat-value text-secondary">{stats?.totalUsers}</div>
-          <div className="stat-desc text-secondary">↗︎ {stats?.totalUsers} (100%)</div>
-        </div>
-      </div>
       <RecommendedNotesPage />
       <NotesPage />
       <div className="my-20 m-4">
@@ -51,6 +38,19 @@ export const DashboardPage = () => {
             icon on the right side of the each note item then you can check in
             your downloads section.
           </div>
+        </div>
+      </div>
+      <div className="shadow flex flex-col lg:flex-row">
+        <div className="stat place-items-center">
+          <div className="stat-title">Downloads</div>
+          <div className="stat-value">{stats?.totalDownloads}</div>
+          <div className="stat-desc">Total Downloads</div>
+        </div>
+
+        <div className="stat place-items-center">
+          <div className="stat-title">Users</div>
+          <div className="stat-value text-secondary">{stats?.totalUsers}</div>
+          <div className="stat-desc text-secondary">↗︎ {stats?.totalUsers} (100%)</div>
         </div>
       </div>
     </div>

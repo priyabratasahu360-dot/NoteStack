@@ -8,8 +8,15 @@ import { IoIosCreate } from "react-icons/io";
 import { IoMdDownload } from "react-icons/io";
 import { TiHome } from "react-icons/ti";
 import { RxDashboard } from "react-icons/rx";
+import { FaPlusCircle } from "react-icons/fa";
 
 export const Sidebar = ({heading}) => {
+  const linkItemsWithIcons = [
+    {to: "/note", text: "Dashboard", icon: <RxDashboard className="size-4"/>},
+    {to: "/uploaded", text: "Uploads", icon: <MdFileUpload className="size-6"/>},
+    {to: "/upload", text: "Create", icon: <FaPlusCircle className="size-4.5"/>},
+    {to: "/downloads", text: "Downloads", icon: <IoMdDownload className="size-6"/>}
+  ]
   return (
     <div className="drawer sticky top-0 z-1">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -64,20 +71,18 @@ export const Sidebar = ({heading}) => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="tabs tabs-box flex flex-col bg-base-200 min-h-full w-80 p-4">
+        <ul className="tabs tabs-box flex flex-col bg-base-200 min-h-full w-80 p-4 relative">
           {/* Sidebar content here */}
-          <Link to={"/note"} className="tab">
-            Dashboard
-          </Link>
-          <Link to={"/uploaded"} className="tab">
-            Uploads
-          </Link>
-          <Link to={"/upload"} className="tab">
-            Create
-          </Link>
-          <Link to={"/downloads"} className="tab">
-            Downloads
-          </Link>
+          {
+            linkItemsWithIcons.map((item, index) => (
+              <Link to={item.to} key={index} className="bg-base-200 text-base-content">
+                <div className="flex items-center">
+                  <span className="size-8 flex items-center justify-center">{item.icon}</span>
+                  <span>{item.text}</span>
+                </div>
+              </Link>
+            ))
+          }
         </ul>
       </div>
     </div>

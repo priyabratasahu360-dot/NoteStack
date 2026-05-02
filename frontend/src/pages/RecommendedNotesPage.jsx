@@ -10,22 +10,22 @@ import { getRecommendedNotes, downloadNote } from "../api/api";
 //ASSETS (Icons)
 import { IoMdDownload } from "react-icons/io";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
+import { FaExclamationCircle } from "react-icons/fa";
 
 export const RecommendedNotesPage = () => {
-
-  const {data: recomNotes} = useQuery({
+  const { data: recomNotes } = useQuery({
     queryKey: ["recommendedNotes"],
-    queryFn: getRecommendedNotes
+    queryFn: getRecommendedNotes,
   });
 
   // console.log(recomNotes);
 
-  const {mutate: mutateDownloadMutation} = useMutation({
+  const { mutate: mutateDownloadMutation } = useMutation({
     mutationFn: downloadNote,
-    onSuccess: async(data) => {
+    onSuccess: async (data) => {
       // console.log(data);
 
-      if(data?.Url){
+      if (data?.Url) {
         const res = await fetch(data.Url);
         const blob = await res.blob();
 
@@ -41,46 +41,41 @@ export const RecommendedNotesPage = () => {
 
         window.URL.revokeObjectURL(blobUrl);
       }
-    }
+    },
   });
 
-   const handleDownloadNote = async(id) => {
-      mutateDownloadMutation(id);
-    }
+  const handleDownloadNote = async (id) => {
+    mutateDownloadMutation(id);
+  };
   return (
     <div className="m-5">
       <p className="py-5 text-2xl opacity-60 tracking-wide">
         Recommended Notes
       </p>
 
-      <div className="collapse bg-base-100 border border-base-300">
-        <input type="checkbox" />
-        <div className="collapse-title font-semibold opacity-70 flex justify-between items-center px-3">
-          <span>Show</span>
-          <IoMdArrowDropdownCircle className="size-5" />
-        </div>
-        <div className="collapse-content text-sm">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            {
-              recomNotes?.notes.length > 0 ?
-              recomNotes?.notes.map((note, index) => (
-                <NoteCard
-                  key={index}
-                  author={note.authorId.userName}
-                  title={note.title}
-                  desc={note.description}
-                  category={note.category}
-                  tags={note.tags}
-                  keywords={note.keywords}
-                  time={note.createdAt}
-                  btnContent="Download"
-                  previewImage={note.previewImage}
-                  handleClick={() => handleDownloadNote(note._id)}
-                />
-              )) : "No recommended notes available"
-            }
+      <div className="carousel w-full flex gap-2 p-4">
+        {recomNotes?.notes.length > 0 ? (
+          recomNotes?.notes.map((note, index) => (
+            <div className="carousel-item w-70 lg:w-90 transition duration-400 hover:scale-102">
+              <NoteCard
+                key={index}
+                author={note.authorId.userName}
+                title={note.title}
+                desc={note.description}
+                category={note.category}
+                time={note.createdAt}
+                btnContent={<IoMdDownload className="size-6" />}
+                previewImage={note.previewImage}
+                handleClick={() => handleDownloadNote(note._id)}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="flex gap-2">
+            <FaExclamationCircle className="size-5 text-yellow-500" />
+            <p>No recommended notes available</p>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

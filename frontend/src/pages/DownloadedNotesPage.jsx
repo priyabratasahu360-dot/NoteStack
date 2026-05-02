@@ -11,14 +11,14 @@ import { NoteCard } from "../components/NoteCard";
 //ASSETS (Icons)
 import { IoOpen } from "react-icons/io5";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-
+import { FaExclamationCircle } from "react-icons/fa";
 
 export const DownloadedNotesPage = () => {
   const { data: downloadedNotes, isPending } = useQuery({
     queryKey: ["downloadedNote"],
     queryFn: showAllDownloadedNotes,
   });
-  // console.log(downloadedNotes);
+  console.log(downloadedNotes);
   return (
     <>
       <Sidebar heading="Downloads" />
@@ -27,9 +27,12 @@ export const DownloadedNotesPage = () => {
           Downloaded Notes
         </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          {isPending ? <AiOutlineLoading3Quarters className="size-8 animate-spin"/> : (downloadedNotes?.filteredNotes?.length > 0
-            ? downloadedNotes?.filteredNotes?.map((note, index) => (
+        <div className="carousel w-full flex gap-2 p-4">
+          {isPending ? (
+            <AiOutlineLoading3Quarters className="size-8 animate-spin" />
+          ) : downloadedNotes?.filteredNotes?.length > 0 ? (
+            downloadedNotes?.filteredNotes?.map((note, index) => (
+              <div className="carousel-item w-70 lg:w-90 transition duration-400 hover:scale-102">
                 <NoteCard
                   key={index}
                   author={note.noteId.authorId.userName}
@@ -39,10 +42,18 @@ export const DownloadedNotesPage = () => {
                   tags={note.noteId.tags}
                   keywords={note.noteId.keywords}
                   time={note.createdAt}
-                  btnContent="View"
+                  previewImage={note.noteId.previewImage}
+                  btnContent={<IoOpen className="size-6"/>}
                 />
-              ))
-            : "No downloaded notes available")}
+              </div>
+            ))
+          ) : (
+            
+            <div className="flex gap-2">
+                              <FaExclamationCircle className="size-5 text-yellow-500"/>
+                              <p>"No downloaded notes available"</p>
+                            </div>
+          )}
         </div>
       </div>
     </>

@@ -37,17 +37,11 @@ export const Navbar = () => {
     navigate(`/?query=${searchInput}`)
   }
 
-  const navbarLinkItem = [
-    {to: "/note", text: "Dashboard"},
-    {to: "/about", text: "About"},
-    {to: "/contact", text: "Contact"},
-    {to: "/profile", text: "Profile"},
-  ]
   const navbarLinkItemWithIcon = [
-    {to: "/note", text: "Dashboard", icon: <RxDashboard className="size-6"/>},
-    {to: "/about", text: "About", icon: <FaCircleExclamation className="size-6"/>},
-    {to: "/contact", text: "Contact", icon: <MdContactMail className="size-6"/>},
-    {to: "/profile", text: "Profile", icon: <FaUserCircle className="size-6"/>},
+    {to: "/note", text: "Dashboard", icon: <RxDashboard className="size-5"/>},
+    {to: "/about", text: "About", icon: <FaCircleExclamation className="size-5"/>},
+    {to: "/contact", text: "Contact", icon: <MdContactMail className="size-5"/>},
+    {to: "/profile", text: "Profile", icon: <FaUserCircle className="size-5"/>},
   ]
 
   return (
@@ -68,7 +62,8 @@ export const Navbar = () => {
         <div className="navbar-center hidden lg:flex gap-5">
           <ul className={`menu lg:menu-horizontal rounded-box flex gap-12`}>
             {navbarLinkItemWithIcon.map((item, index) => (
-              <Link to={item.to} key={index} className="flex gap-2">
+              <Link to={item.to} key={index} className="flex items-center gap-2 hover:bg-primary p-2 hover:text-white">
+                <span>{item.icon}</span>
                 <span className="font-semibold text-lg">{item.text}</span>
               </Link>
             ))}
@@ -110,7 +105,7 @@ export const Navbar = () => {
             <div className="indicator">
               <button 
               onClick={handleSearch}
-              className="btn join-item">Search</button>
+              className="btn join-item bg-primary text-white">Search</button>
             </div>
           </div>
           <button className="hidden lg:flex btn" onClick={handleLogout}>
@@ -125,16 +120,18 @@ export const Navbar = () => {
       {/* smaller screen view navbar item*/}
       <div className={`collapse-content lg:hidden z-1`}>
         <ul className="menu w-full">
-          {navbarLinkItem.map((item, index) => (
-            <Link to={item.to} key={index} className="bg-base-200 w-full p-4 hover:bg-base-100 text-base-content">
-              {item.text}
+          {navbarLinkItemWithIcon.map((item, index) => (
+            <Link to={item.to} key={index} className="bg-base-200 w-full p-4 hover:bg-primary hover:text-white flex items-center gap-2">
+              <span className="size-auto">{item.icon}</span>
+              <span>{item.text}</span>
             </Link>
           ))}
           <Link
             to={"/login"}
-             className={`bg-base-200 w-full p-4 hover:bg-red-900 hover:text-white`}
+             className={`bg-base-200 w-full p-4 hover:bg-red-900 hover:text-white flex gap-2 items-center`}
             onClick={handleLogout}
           >
+            <IoMdLogOut className="size-5"/>
             Logout
           </Link>
         </ul>
