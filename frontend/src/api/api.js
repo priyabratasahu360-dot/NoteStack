@@ -154,6 +154,17 @@ export const getAppStats = async() => {
     }
 }
 
+export const countLikes = async(noteId) => {
+    try{
+        const res = await axiosInstance.post(`/note/notes/${noteId}/like`);
+        return res.data;
+    }
+    catch(error){
+        console.log("Error in countLikes function", error);
+        toast.error(error.response.data.message);
+    }
+}
+
 //////////////---- User profile ---- ////////////////
 
 export const updateProfile = async(profileData) => {

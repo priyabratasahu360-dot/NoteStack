@@ -51,9 +51,10 @@ export const UploadedNotesPage = () => {
                   desc={note.description}
                   category={note.category}
                   time={note.createdAt}
-                  btnContent={<MdDelete className="size-6"/>}
+                  btnContent={<MdDelete className="size-6 text-red-500"/>}
                   previewImage={note.previewImage}
                   handleClick={() => handleDelete(note._id)}
+                  downloads={note.downloads}
                 />
               </div>
             ))

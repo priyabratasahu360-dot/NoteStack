@@ -18,7 +18,7 @@ export const DownloadedNotesPage = () => {
     queryKey: ["downloadedNote"],
     queryFn: showAllDownloadedNotes,
   });
-  console.log(downloadedNotes);
+  // console.log(downloadedNotes);
   return (
     <>
       <Sidebar heading="Downloads" />
@@ -44,6 +44,7 @@ export const DownloadedNotesPage = () => {
                   time={note.createdAt}
                   previewImage={note.noteId.previewImage}
                   btnContent={<IoOpen className="size-6"/>}
+                  downloads={note.noteId.downloads}
                 />
               </div>
             ))

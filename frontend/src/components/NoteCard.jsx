@@ -1,6 +1,8 @@
 import { convertToLocal } from "../utils/utils";
 
 import { FaUserCircle } from "react-icons/fa";
+import { AiOutlineLike } from "react-icons/ai";
+import { HiDownload } from "react-icons/hi";
 
 export const NoteCard = ({
   author,
@@ -11,7 +13,11 @@ export const NoteCard = ({
   btnContent,
   previewImage,
   handleClick,
+  downloads,
+  likes,
+  handleLike
 }) => {
+
   return (
     <div className="flex flex-1 flex-col p-4 rounded border">
       {/* content */}
@@ -51,10 +57,22 @@ export const NoteCard = ({
         <FaUserCircle className="size-4" />
         {`${author}`}
       </span>
-      <div>
+      <div className="flex justify-between">
         <button className="bg-base-200 text-primary p-1 rounded-full" onClick={handleClick}>
           {btnContent}
         </button>
+        <div className="flex items-center gap-4">
+          <div className="flex flex-col justify-center items-center">
+          <HiDownload className="size-5"/>
+          <span className="text-sm">{downloads}</span>
+          </div>
+          <div className="flex flex-col justify-center items-center">
+          <button onClick={handleLike}>
+          <AiOutlineLike className="size-5"/>
+          </button>
+          <span className="text-sm">{likes}</span>
+          </div>
+        </div>
       </div>
     </div>
   );

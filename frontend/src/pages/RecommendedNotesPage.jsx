@@ -67,6 +67,7 @@ export const RecommendedNotesPage = () => {
                 btnContent={<IoMdDownload className="size-6" />}
                 previewImage={note.previewImage}
                 handleClick={() => handleDownloadNote(note._id)}
+                downloads={note.downloads}
               />
             </div>
           ))

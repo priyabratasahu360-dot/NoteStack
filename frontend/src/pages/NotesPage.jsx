@@ -2,7 +2,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 //API FUNCTIONS
-import { downloadNote, getAllAvailableNotes } from "../api/api";
+import { countLikes, downloadNote, getAllAvailableNotes, } from "../api/api";
 
 //PAGE COMPONENTS
 import { NoteCard } from "../components/NoteCard";
@@ -18,7 +18,7 @@ export const NotesPage = () => {
     queryKey: ["allNotes"],
     queryFn: getAllAvailableNotes,
   });
-  // console.log(allNotes);
+  console.log(allNotes);
 
   const { mutate: mutateDownloadMutation } = useMutation({
     mutationFn: downloadNote,
@@ -49,6 +49,18 @@ export const NotesPage = () => {
     mutateDownloadMutation(id);
   };
 
+  const {mutate: mutateLikeMutation} = useMutation({
+    mutationFn: countLikes,
+    onSuccess: (data) => {
+      console.log(data.isLikes);
+      queryClient.invalidateQueries({queryKey: ["allNotes"]});
+    }
+  });
+
+  const handleLikeCount = (id) => {
+    mutateLikeMutation(id);
+  }
+
   return (
     <div className="m-5">
       <p className="py-5 text-2xl opacity-60 tracking-wide">
@@ -71,6 +83,9 @@ export const NotesPage = () => {
                   btnContent={<IoMdDownload className="size-6"/>}
                   previewImage={note.previewImage}
                   handleClick={() => handleDownloadNote(note._id)}
+                  downloads={note.downloads}
+                  likes={note.likes.length}
+                  handleLike={() => handleLikeCount(note._id)}
                   />
                   </div>
               ))

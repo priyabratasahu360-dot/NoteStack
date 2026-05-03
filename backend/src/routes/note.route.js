@@ -1,7 +1,7 @@
 import express from "express";
 import multer from "multer";
 
-import { getAllNotes, searchedNotes, getRecommendedNotes, getSingleNote, getDownlodedNotes, getUploadedNotes, uploadNote, updateExistingNote, deleteSelectedNote, downloadNote, getStats } from "../controllers/note.controller.js";
+import { getAllNotes, searchedNotes, getRecommendedNotes, getSingleNote, getDownlodedNotes, getUploadedNotes, uploadNote, updateExistingNote, deleteSelectedNote, downloadNote, getStats, addLike } from "../controllers/note.controller.js";
 import { protectRoute } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
@@ -19,6 +19,7 @@ router.get("/notes/uploaded", protectRoute, getUploadedNotes); // get all notes 
 
 
 router.post("/notes", protectRoute, upload.single("file"), uploadNote); // create a new note
+router.post("/notes/:id/like", protectRoute, addLike); // like endponit
 router.post("/notes/:id/download",protectRoute, downloadNote); // download a note
 
 router.get("/notes/:id", protectRoute, getSingleNote); // get a specific note by id
