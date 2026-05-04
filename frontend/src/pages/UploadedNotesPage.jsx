@@ -7,7 +7,7 @@ import { NoteCard } from "../components/NoteCard";
 import { NoContent } from "../components/NoContent";
 
 //API FUNCTIONS
-import { showAllUploadedNotes, deleteSelectedNote } from "../api/api";
+import { showAllUploadedNotes, deleteSelectedNote, countLikes } from "../api/api";
 
 //ASSETS (Icons)
 import { MdDelete } from "react-icons/md";
@@ -20,7 +20,7 @@ export const UploadedNotesPage = () => {
     queryKey: ["uploadedNote"],
     queryFn: showAllUploadedNotes,
   });
-  // console.log(uploaded);
+  console.log(uploaded);
 
   const queryClient = useQueryClient();
 
@@ -34,6 +34,18 @@ export const UploadedNotesPage = () => {
   const handleDelete = (id) => {
     mutateDeleteNoteMutation(id);
   };
+
+    const {mutate: mutateLikeMutation} = useMutation({
+      mutationFn: countLikes,
+      onSuccess: (data) => {
+        console.log(data);
+        queryClient.invalidateQueries({queryKey: ["uploadedNote"]});
+      }
+    });
+  
+    const handleLikeCount = (id) => {
+      mutateLikeMutation(id);
+    }
   return (
     <>
       <Sidebar heading="Uploaded by You" />
@@ -41,8 +53,8 @@ export const UploadedNotesPage = () => {
         <p className="py-5 text-2xl opacity-60 tracking-wide">Uploaded Notes</p>
 
         <div className="carousel w-full flex gap-2 p-4">
-          {uploaded?.uploadedNotes?.length > 0 ? (
-            uploaded?.uploadedNotes?.map((note, index) => (
+          {uploaded?.notes?.length > 0 ? (
+            uploaded?.notes?.map((note, index) => (
               <div className="carousel-item w-70 lg:w-90 transition duration-400 hover:scale-102">
                 <NoteCard
                   key={index}
@@ -55,6 +67,9 @@ export const UploadedNotesPage = () => {
                   previewImage={note.previewImage}
                   handleClick={() => handleDelete(note._id)}
                   downloads={note.downloads}
+                  isLiked={note.isLiked}
+                  likes={note.likesCount}
+                  handleLike={() => handleLikeCount(note._id)}
                 />
               </div>
             ))

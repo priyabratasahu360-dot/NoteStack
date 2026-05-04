@@ -6,6 +6,7 @@ import fs from "fs";
 
 export const getAllNotes = async (req, res) => {
   try {
+    const userId = req.user._id;
     const notes = await Note.find({}).populate(
       "authorId",
       "_id profilePhoto userName",
@@ -14,7 +15,21 @@ export const getAllNotes = async (req, res) => {
     if (!notes) {
       return res.status(200).json({ message: "No notes available" });
     }
-    res.status(200).json({ message: "All available notes", notes });
+
+    const updatedNotes = notes.map((note) => {
+      const isLiked = note.likes.some(
+        (id) => id.toString() === userId?.toString(),
+      );
+
+      return {
+        ...note.toObject(),
+        likesCount: note.likes.length,
+        isLiked,
+      };
+    });
+    res
+      .status(200)
+      .json({ message: "All available notes", notes: updatedNotes });
   } catch (error) {
     console.log("Error in getAllNotes controller: ", error);
     res.status(500).json({ message: "Internal server error" });
@@ -23,23 +38,34 @@ export const getAllNotes = async (req, res) => {
 
 export const getRecommendedNotes = async (req, res) => {
   try {
-    const user = req.user;
+    const userId = req.user._id;
 
-    const tags = user?.notePreferences;
+    const tags = req.user?.notePreferences;
     // console.log(tags); // notePreferences contain tags
     if (!tags || tags.length === 0) {
-      return res
-        .status(404)
-        .json({
-          message: "Please update your preferences to get recommended notes",
-        });
+      return res.status(404).json({
+        message: "Please update your preferences to get recommended notes",
+      });
     }
 
     const notes = await Note.find({ tags: { $in: tags } }).populate("authorId");
 
-    res
-      .status(200)
-      .json({ message: "recommended notes based on your profile", notes });
+    const updatedNotes = notes.map((note) => {
+      const isLiked = note.likes.some(
+        (id) => id.toString() === userId?.toString(),
+      );
+
+      return {
+        ...note.toObject(),
+        likesCount: note.likes.length,
+        isLiked,
+      };
+    });
+
+    res.status(200).json({
+      message: "recommended notes based on your profile",
+      notes: updatedNotes,
+    });
   } catch (error) {
     console.log("Error in recommendednotes controller: ", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -48,6 +74,7 @@ export const getRecommendedNotes = async (req, res) => {
 export const getSingleNote = async (req, res) => {
   try {
     const { id } = req.params;
+    const userId = req.user._id;
 
     const note = await Note.findById(id);
 
@@ -55,7 +82,19 @@ export const getSingleNote = async (req, res) => {
       return res.status(404).json({ message: "Something went wrong" });
     }
 
-    return res.status(200).json({ message: "Note is available", note });
+    const isLiked = note.likes.some(
+      (id) => id.toString() === userId?.toString(),
+    );
+
+    const updatedNote = {
+      ...note.toObject(),
+      likesCount: note.likes.length,
+      isLiked,
+    };
+
+    return res
+      .status(200)
+      .json({ message: "Note is available", note: updatedNote });
   } catch (error) {
     console.log("Error in getSingleNote controller: ", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -84,7 +123,26 @@ export const getDownlodedNotes = async (req, res) => {
       (note) => note.noteId !== null,
     );
 
-    res.status(200).json({ message: "Your downloaded notes", filteredNotes });
+    const updatedNotes = filteredNotes.map((item) => {
+      const note = item.noteId;
+
+      const isLiked = note.likes.some(
+        (id) => id.toString() === userId.toString(),
+      );
+
+      return {
+        ...item.toObject(),
+        noteId: {
+          ...note.toObject(),
+          likesCount: note.likes.length,
+          isLiked,
+        },
+      };
+    });
+
+    res
+      .status(200)
+      .json({ message: "Your downloaded notes", notes: updatedNotes });
   } catch (error) {
     console.log("Error in getDownloaded notes: ", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -111,7 +169,21 @@ export const getUploadedNotes = async (req, res) => {
         .json({ message: "You haven't uploaded any notes yet" });
     }
 
-    res.status(200).json({ message: "Your uploaded notes", uploadedNotes });
+    const updatedNotes = uploadedNotes.map((note) => {
+      const isLiked = note.likes.some(
+        (id) => id.toString() === userId?.toString(),
+      );
+
+      return {
+        ...note.toObject(),
+        likesCount: note.likes.length,
+        isLiked,
+      };
+    });
+
+    res
+      .status(200)
+      .json({ message: "Your uploaded notes", notes: updatedNotes });
   } catch (error) {
     console.log("Error in getUploadedNotes controller: ", error);
     return res.json(500).json({ message: "Internal server error" });
@@ -218,12 +290,10 @@ export const deleteSelectedNote = async (req, res) => {
       return res.status(404).json({ message: "Note not found" });
     }
 
-    res
-      .status(200)
-      .json({
-        message: "Note deleted successfully",
-        deletedNote: selectedNote,
-      });
+    res.status(200).json({
+      message: "Note deleted successfully",
+      deletedNote: selectedNote,
+    });
   } catch (error) {
     console.log("Error in deleteSelectedNote controller: ", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -252,12 +322,10 @@ export const downloadNote = async (req, res) => {
 
     await note.save();
 
-    res
-      .status(201)
-      .json({
-        message: "note succesfully added to downloaded note list",
-        Url: note.fileUrl,
-      });
+    res.status(201).json({
+      message: "note succesfully added to downloaded note list",
+      Url: note.fileUrl,
+    });
   } catch (error) {
     console.log("Error in downloadNote controller: ", error);
     return res.status(500).json({ message: "Internal Server error" });
@@ -266,6 +334,7 @@ export const downloadNote = async (req, res) => {
 
 export const searchedNotes = async (req, res) => {
   const { query } = req.query;
+  const userId = req.user._id;
 
   if (!query) {
     return res.status(404).json({ message: "No note found", notes: [] });
@@ -281,7 +350,21 @@ export const searchedNotes = async (req, res) => {
       ],
     }).populate("authorId", "userName");
 
-    res.status(200).json({ message: "Your searched notes", notes: notes });
+    const updatedNotes = notes.map((note) => {
+      const isLiked = note.likes.some(
+        (id) => id.toString() === userId?.toString(),
+      );
+
+      return {
+        ...note.toObject(),
+        likesCount: note.likes.length,
+        isLiked,
+      };
+    });
+
+    res
+      .status(200)
+      .json({ message: "Your searched notes", notes: updatedNotes });
   } catch {
     console.log("Error in searchedNotes controller: ", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -343,7 +426,7 @@ export const addLike = async (req, res) => {
     res.status(200).json({
       message: alreadyLiked ? "Unliked" : "Liked",
       likesCount: note.likes.length,
-      isLikes: !alreadyLiked,
+      isLiked: !alreadyLiked,
     });
   } catch (error) {
     console.log("Error in addLike controller", error);

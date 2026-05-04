@@ -83,7 +83,7 @@ export const ProfilePage = () => {
               />
             </div>
             <label htmlFor="avatar-input">
-              <FaCamera className="absolute bottom-0 right-3 size-5" />
+              <FaCamera className="absolute btext-base-100 text-base-content  bottom-0 right-3 size-5" />
               <input
                 type="file"
                 accept="image/*"

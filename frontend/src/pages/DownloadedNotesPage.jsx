@@ -1,8 +1,8 @@
 //EXTERNAL LIBRARIES
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
 //API FUNCTIONS
-import { showAllDownloadedNotes } from "../api/api";
+import { countLikes, showAllDownloadedNotes } from "../api/api";
 
 //PAGE COMPONENTS
 import { Sidebar } from "../components/Sidebar";
@@ -14,11 +14,25 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaExclamationCircle } from "react-icons/fa";
 
 export const DownloadedNotesPage = () => {
+
+  const queryClient = useQueryClient();
   const { data: downloadedNotes, isPending } = useQuery({
     queryKey: ["downloadedNote"],
     queryFn: showAllDownloadedNotes,
   });
-  // console.log(downloadedNotes);
+  console.log(downloadedNotes);
+
+    const {mutate: mutateLikeMutation} = useMutation({
+    mutationFn: countLikes,
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.invalidateQueries({queryKey: ["downloadedNote"]});
+    }
+  });
+
+  const handleLikeCount = (id) => {
+    mutateLikeMutation(id);
+  }
   return (
     <>
       <Sidebar heading="Downloads" />
@@ -30,8 +44,8 @@ export const DownloadedNotesPage = () => {
         <div className="carousel w-full flex gap-2 p-4">
           {isPending ? (
             <AiOutlineLoading3Quarters className="size-8 animate-spin" />
-          ) : downloadedNotes?.filteredNotes?.length > 0 ? (
-            downloadedNotes?.filteredNotes?.map((note, index) => (
+          ) : downloadedNotes?.notes?.length > 0 ? (
+            downloadedNotes?.notes?.map((note, index) => (
               <div className="carousel-item w-70 lg:w-90 transition duration-400 hover:scale-102">
                 <NoteCard
                   key={index}
@@ -45,6 +59,9 @@ export const DownloadedNotesPage = () => {
                   previewImage={note.noteId.previewImage}
                   btnContent={<IoOpen className="size-6"/>}
                   downloads={note.noteId.downloads}
+                  isLiked={note.noteId.isLiked}
+                  likes={note.noteId.likesCount}
+                  handleLike={() => handleLikeCount(note.noteId._id)}
                 />
               </div>
             ))

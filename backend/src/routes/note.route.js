@@ -7,7 +7,7 @@ const router = express.Router();
 
 const upload = multer({dest: "uploads/"})
 
-router.get("/notes", getAllNotes); // get all available notes 
+router.get("/notes",protectRoute, getAllNotes); // get all available notes 
 
 router.get("/notes/search", protectRoute, searchedNotes);
 

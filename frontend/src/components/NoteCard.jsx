@@ -15,9 +15,9 @@ export const NoteCard = ({
   handleClick,
   downloads,
   likes,
-  handleLike
+  handleLike,
+  isLiked,
 }) => {
-
   return (
     <div className="flex flex-1 flex-col p-4 rounded border">
       {/* content */}
@@ -58,19 +58,26 @@ export const NoteCard = ({
         {`${author}`}
       </span>
       <div className="flex justify-between">
-        <button className="bg-base-200 text-primary p-1 rounded-full" onClick={handleClick}>
+        <button
+          className="bg-base-200 text-primary p-1 rounded-full"
+          onClick={handleClick}
+        >
           {btnContent}
         </button>
         <div className="flex items-center gap-4">
           <div className="flex flex-col justify-center items-center">
-          <HiDownload className="size-5"/>
-          <span className="text-sm">{downloads}</span>
+            <HiDownload className="size-6" />
+            <span className="text-sm">{downloads}</span>
           </div>
           <div className="flex flex-col justify-center items-center">
-          <button onClick={handleLike}>
-          <AiOutlineLike className="size-5"/>
-          </button>
-          <span className="text-sm">{likes}</span>
+            <button onClick={handleLike} className={`${isLiked
+                    ? "bg-blue-500"
+                    : "bg-gray-400"} size-6 rounded-full p-1 flex items-center justify-center`}>
+              <AiOutlineLike
+                className={`size-5`}
+              />
+            </button>
+            <span className="text-sm">{likes}</span>
           </div>
         </div>
       </div>

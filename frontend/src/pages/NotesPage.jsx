@@ -52,7 +52,7 @@ export const NotesPage = () => {
   const {mutate: mutateLikeMutation} = useMutation({
     mutationFn: countLikes,
     onSuccess: (data) => {
-      console.log(data.isLikes);
+      console.log(data);
       queryClient.invalidateQueries({queryKey: ["allNotes"]});
     }
   });
@@ -84,7 +84,8 @@ export const NotesPage = () => {
                   previewImage={note.previewImage}
                   handleClick={() => handleDownloadNote(note._id)}
                   downloads={note.downloads}
-                  likes={note.likes.length}
+                  likes={note.likesCount}
+                  isLiked={note.isLiked}
                   handleLike={() => handleLikeCount(note._id)}
                   />
                   </div>
