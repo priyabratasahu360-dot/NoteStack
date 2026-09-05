@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { 
-  HiOutlineBookOpen, 
-  HiOutlineHeart, 
+import {
+  HiOutlineBookOpen,
+  HiOutlineHeart,
   HiOutlineCodeBracket,
   HiOutlineShieldCheck
 } from "react-icons/hi2";
@@ -12,7 +12,7 @@ export const Footer = () => {
     <footer className="w-full bg-base-100 border-t border-base-content/10 text-base-content/80 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          
+
           {/* Col 1: Brand */}
           <div className="md:col-span-2 space-y-3">
             <Link to="/" className="flex items-center gap-2.5">
@@ -94,7 +94,7 @@ export const Footer = () => {
         <div className="pt-6 border-t border-base-content/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-base-content/50">
           <p>© {new Date().getFullYear()} NoteStack. All rights reserved.</p>
           <div className="flex items-center gap-1">
-            <span>Crafted for learners everywhere</span>
+            <span>NoteStack</span>
             <HiOutlineHeart className="size-3.5 text-rose-500 inline" />
           </div>
         </div>

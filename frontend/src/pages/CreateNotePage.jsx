@@ -2,11 +2,10 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { createNote } from "../api/api";
 import { Navbar } from "../components/Navbar";
-import { Sidebar } from "../components/Sidebar";
 import { Footer } from "../components/Footer";
-import { 
-  HiOutlineCloudArrowUp, 
-  HiOutlineDocumentText, 
+import {
+  HiOutlineCloudArrowUp,
+  HiOutlineDocumentText,
   HiOutlineXMark,
   HiOutlineSparkles
 } from "react-icons/hi2";
@@ -15,7 +14,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 export const CreateNotePage = () => {
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState([]);
-  
+
   const [keywordInput, setKeywordInput] = useState("");
   const [keywords, setKeywords] = useState([]);
 
@@ -98,11 +97,11 @@ export const CreateNotePage = () => {
   return (
     <div className="min-h-screen bg-base-200/40 text-base-content flex flex-col">
       <Navbar />
-      <Sidebar heading="Upload Notes" />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
         <div className="bg-base-100 rounded-3xl border border-base-content/10 shadow-sm p-6 sm:p-10 space-y-8">
-          
+
+          <p className="opacity-50 text-gray-400 text-sm italic">Note: Please use a relevant category name for eg. javascript, mongodb, react, nodejs...</p>
           {/* Header */}
           <div className="border-b border-base-content/10 pb-6 flex items-center justify-between">
             <div>
@@ -120,7 +119,7 @@ export const CreateNotePage = () => {
           </div>
 
           <form onSubmit={handleUploadNote} className="space-y-6">
-            
+
             {/* Title & Category Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="space-y-1.5">
@@ -260,7 +259,7 @@ export const CreateNotePage = () => {
               <label className="text-xs font-bold uppercase tracking-wider text-base-content/80">
                 Upload Document (PDF or Images) <span className="text-red-500">*</span>
               </label>
-              
+
               <div className="relative border-2 border-dashed border-base-content/20 hover:border-primary/50 rounded-2xl p-6 transition flex flex-col items-center justify-center text-center bg-base-200/30">
                 <input
                   type="file"

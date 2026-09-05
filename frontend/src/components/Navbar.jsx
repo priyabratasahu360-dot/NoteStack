@@ -8,7 +8,6 @@ import { useThemeSelector } from "../hooks/useThemeSelector";
 import { 
   HiOutlineSparkles, 
   HiOutlineBookOpen, 
-  HiOutlineMagnifyingGlass,
   HiOutlineArrowRightOnRectangle,
   HiOutlineSwatch,
   HiOutlineBars3,
@@ -23,7 +22,6 @@ import {
 } from "react-icons/hi2";
 
 export const Navbar = () => {
-  const [searchInput, setSearchInput] = useState("");
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [themeModalOpen, setThemeModalOpen] = useState(false);
   const { theme, setTheme, themes } = useThemeSelector();
@@ -46,18 +44,11 @@ export const Navbar = () => {
     navigate("/login");
   };
 
-  const handleSearch = (e) => {
-    e?.preventDefault();
-    if (searchInput.trim()) {
-      navigate(`/?query=${encodeURIComponent(searchInput.trim())}`);
-      setMobileDrawerOpen(false);
-    }
-  };
-
   const navLinks = [
     { to: "/", text: "Explore", icon: <HiOutlineSparkles className="size-5" /> },
     { to: "/note", text: "Dashboard", icon: <HiOutlineSquares2X2 className="size-5" />, authOnly: true },
     { to: "/upload", text: "Upload", icon: <HiOutlineCloudArrowUp className="size-5" />, authOnly: true },
+    { to: "/uploaded", text: "My Uploads", icon: <HiOutlineCloudArrowUp className="size-5" />, authOnly: true },
     { to: "/downloads", text: "Downloads", icon: <HiOutlineArrowDownTray className="size-5" />, authOnly: true },
     { to: "/about", text: "About", icon: <HiOutlineInformationCircle className="size-5" /> },
     { to: "/contact", text: "Contact", icon: <HiOutlineEnvelope className="size-5" /> },
@@ -67,7 +58,7 @@ export const Navbar = () => {
     <>
       <header className="sticky top-0 z-40 w-full glass-nav transition-all duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 gap-3">
+          <div className="flex items-center justify-between h-16 gap-4">
             
             {/* Logo & Brand */}
             <div className="flex items-center gap-6 shrink-0">
@@ -108,35 +99,13 @@ export const Navbar = () => {
               </nav>
             </div>
 
-            {/* Desktop Search Bar - Fixed layout & robust design */}
-            <div className="hidden md:flex flex-1 max-w-lg mx-4">
-              <form onSubmit={handleSearch} className="relative w-full flex items-center">
-                <div className="relative w-full">
-                  <HiOutlineMagnifyingGlass className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-base-content/50 pointer-events-none" />
-                  <input
-                    type="text"
-                    value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                    placeholder="Search notes by title, subject, #tag..."
-                    className="w-full pl-10 pr-24 py-2 rounded-xl text-sm bg-base-200/80 border border-base-content/15 focus:border-primary focus:bg-base-100 focus:outline-none transition-all placeholder:text-base-content/40 shadow-xs"
-                  />
-                  <button
-                    type="submit"
-                    className="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1 text-xs font-bold rounded-lg bg-primary hover:opacity-90 text-primary-content shadow-xs transition cursor-pointer"
-                  >
-                    Search
-                  </button>
-                </div>
-              </form>
-            </div>
-
             {/* Right Action Icons & Auth */}
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-2.5 shrink-0">
               
               {/* Theme Selector Modal Trigger */}
               <button
                 onClick={() => setThemeModalOpen(true)}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-base-content/10 hover:bg-base-200 text-base-content/80 hover:text-base-content transition cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-base-content/10 hover:bg-base-200 text-base-content/80 hover:text-base-content transition cursor-pointer"
                 title="Change Color Theme"
               >
                 <HiOutlineSwatch className="size-4.5 text-primary" />
@@ -163,7 +132,7 @@ export const Navbar = () => {
                         authUser.userName?.[0]?.toUpperCase() || "U"
                       )}
                     </div>
-                    <span className="text-xs font-semibold text-base-content/90 max-w-[90px] truncate">
+                    <span className="text-xs font-semibold text-base-content/90 max-w-[100px] truncate">
                       {authUser.userName}
                     </span>
                   </Link>
@@ -239,24 +208,6 @@ export const Navbar = () => {
                   <HiOutlineXMark className="size-6" />
                 </button>
               </div>
-
-              {/* Mobile Search inside Drawer */}
-              <form onSubmit={handleSearch} className="relative">
-                <input
-                  type="text"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  placeholder="Search notes, subjects..."
-                  className="w-full pl-9 pr-16 py-2.5 rounded-xl text-sm bg-base-200 border border-base-content/10 focus:border-primary focus:outline-none"
-                />
-                <HiOutlineMagnifyingGlass className="absolute left-3 top-3 size-4 text-base-content/50" />
-                <button
-                  type="submit"
-                  className="absolute right-1.5 top-1.5 px-2.5 py-1 text-xs font-bold rounded-lg bg-primary text-primary-content cursor-pointer"
-                >
-                  Go
-                </button>
-              </form>
 
               {/* Navigation Links */}
               <div className="space-y-1">

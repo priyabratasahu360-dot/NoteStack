@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Navbar } from "../components/Navbar";
-import { Sidebar } from "../components/Sidebar";
 import { NoteCard } from "../components/NoteCard";
 import { NoContent } from "../components/NoContent";
 import { Footer } from "../components/Footer";
@@ -43,7 +42,6 @@ export const UploadedNotesPage = () => {
   return (
     <div className="min-h-screen bg-base-200/40 text-base-content flex flex-col">
       <Navbar />
-      <Sidebar heading="My Uploads" />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

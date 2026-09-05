@@ -2,12 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { getAppStats } from "../api/api";
 import { NotesPage } from "./NotesPage";
 import { RecommendedNotesPage } from "./RecommendedNotesPage";
-import { 
-  HiOutlineArrowDownTray, 
-  HiOutlineUsers, 
+import {
+  HiOutlineArrowDownTray,
+  HiOutlineUsers,
   HiOutlineDocumentText,
   HiOutlineQuestionMarkCircle,
-  HiOutlineChevronDown
+  HiOutlineChevronDown,
+  HiOutlineSquares2X2
 } from "react-icons/hi2";
 
 export const DashboardPage = () => {
@@ -18,7 +19,15 @@ export const DashboardPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
-      
+      {/* heading */}
+      <div className="w-full rounded-xl border border-base-content/10 bg-base-100 px-5 py-4 shadow-xs flex items-center gap-4">
+        <HiOutlineSquares2X2 className="size-6" />
+        <h1 className="text-xl font-bold tracking-tight text-base-content">
+          Dashboard
+        </h1>
+      </div>
+
+
       {/* Overview Stats Bar */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         <div className="p-5 rounded-2xl bg-base-100 border border-base-content/10 shadow-sm flex items-center gap-4">

@@ -13,7 +13,7 @@ export const NoContent = () => {
       </h3>
 
       <p className="text-sm text-base-content/60 mt-1.5 max-w-sm">
-        You haven't uploaded any study notes yet. Share your knowledge with other students and earn community upvotes!
+        You haven't uploaded any study notes yet. Share your knowledge with other students and earn their appreciation!
       </p>
 
       <Link

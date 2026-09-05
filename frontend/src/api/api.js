@@ -15,7 +15,6 @@ export const getAuthUser = async () => {
 
 export const signupMutation = async (signupData) => {
     try {
-        console.log(signupData)
         const res = await axiosInstance.post("/auth/signup", signupData);
         toast.success("Account created");
         return res.data;
@@ -28,7 +27,6 @@ export const signupMutation = async (signupData) => {
 
 export const loginMutation = async (loginData) => {
     try {
-        console.log(loginData)
         const res = await axiosInstance.post("auth/login", loginData);
         toast.success("Login success");
         return res.data;
@@ -60,7 +58,6 @@ export const getRecommendedNotes = async () => {
     }
     catch (error) {
         console.log("Error in notes recommended function: ", error);
-        toast.success(error.response.data.message);
         return null;
     }
 }
@@ -72,7 +69,6 @@ export const getAllAvailableNotes = async (page = 1, limit = 8) => {
     }
     catch (error) {
         console.log("Error in getAllAvailableNotes function: ", error);
-        toast.error(error.response?.data?.message || "Failed to load notes");
     }
 }
 
@@ -83,7 +79,6 @@ export const showAllUploadedNotes = async () => {
     }
     catch (error) {
         console.log("Error in showuploaded notes function: ", error);
-        toast.error(error.response.data.message);
     }
 }
 
@@ -118,7 +113,6 @@ export const showAllDownloadedNotes = async () => {
     }
     catch (error) {
         console.log("Error in showAllDownloadedNotes function: ", error);
-        toast.error(error.response.data.message);
     }
 }
 
@@ -141,7 +135,6 @@ export const getSearchedNotes = async (searchInput) => {
     }
     catch (error) {
         console.log("Error in getSearched notes function: ", error);
-        toast.error(error.response.data.message);
     }
 }
 
@@ -152,7 +145,6 @@ export const getAppStats = async () => {
     }
     catch (error) {
         console.log("Error in getAppStats function", error);
-        toast.error(error.response.data.message);
     }
 }
 

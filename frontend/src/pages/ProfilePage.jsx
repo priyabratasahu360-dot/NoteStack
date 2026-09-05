@@ -2,12 +2,11 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { updateProfile, getAuthUser } from "../api/api";
 import { Navbar } from "../components/Navbar";
-import { Sidebar } from "../components/Sidebar";
 import { Footer } from "../components/Footer";
-import { 
-  HiOutlineCamera, 
-  HiOutlineUser, 
-  HiOutlineEnvelope, 
+import {
+  HiOutlineCamera,
+  HiOutlineUser,
+  HiOutlineEnvelope,
   HiOutlineTag,
   HiOutlineXMark,
   HiOutlineCheck,
@@ -76,13 +75,12 @@ export const ProfilePage = () => {
   return (
     <div className="min-h-screen bg-base-200/40 text-base-content flex flex-col">
       <Navbar />
-      <Sidebar heading="Profile Settings" />
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full space-y-6">
-        
+
         {/* Profile Card */}
         <div className="bg-base-100 rounded-3xl border border-base-content/10 shadow-sm p-6 sm:p-10 space-y-8">
-          
+
           {/* Header & Avatar */}
           <div className="flex flex-col sm:flex-row items-center gap-6 border-b border-base-content/10 pb-8">
             <div className="relative group">
@@ -135,7 +133,7 @@ export const ProfilePage = () => {
 
           {/* Form details */}
           <form onSubmit={handleSaveChanges} className="space-y-6">
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="space-y-1.5">
                 <label className="text-xs font-bold uppercase tracking-wider text-base-content/80">
