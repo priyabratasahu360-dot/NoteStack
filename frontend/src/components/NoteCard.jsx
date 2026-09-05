@@ -1,8 +1,12 @@
 import { convertToLocal } from "../utils/utils";
-
-import { FaUserCircle } from "react-icons/fa";
-import { AiOutlineLike } from "react-icons/ai";
-import { HiDownload } from "react-icons/hi";
+import { 
+  HiOutlineHandThumbUp, 
+  HiHandThumbUp,
+  HiOutlineArrowDownTray,
+  HiOutlineDocumentText,
+  HiOutlineCalendar,
+  HiOutlineUser
+} from "react-icons/hi2";
 
 export const NoteCard = ({
   author,
@@ -13,74 +17,121 @@ export const NoteCard = ({
   btnContent,
   previewImage,
   handleClick,
-  downloads,
-  likes,
+  downloads = 0,
+  likes = 0,
   handleLike,
-  isLiked,
+  isLiked = false,
+  tags = [],
+  highlightRank = null, // e.g. "Top Downloaded" or "Most Liked"
 }) => {
   return (
-    <div className="flex flex-1 flex-col p-4 rounded border">
-      {/* content */}
+    <div className="file-row w-full rounded-xl sm:rounded-2xl bg-base-100 border border-base-content/10 px-3 py-2.5 sm:px-4 sm:py-3 flex items-center justify-between gap-3 shadow-xs">
+      
+      {/* Left: Compact Document Icon/Thumb + Title & Metadata in a tight horizontal bar */}
+      <div className="flex items-center gap-3 flex-1 min-w-0">
+        
+        {/* Document Icon / Small Thumbnail */}
+        <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl overflow-hidden bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+          {previewImage ? (
+            <img
+              src={previewImage}
+              alt={title || "Note"}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <HiOutlineDocumentText className="size-5 sm:size-6 text-primary" />
+          )}
 
-      <span className="font-bold opacity-90 text-xl">
-        {title?.toUpperCase()}
-      </span>
-      <p className="opacity-70">{desc}</p>
-      {/* author with note category */}
-      <div className="badge badge-soft badge-primary mt-2">
-        <span>{category.toUpperCase()}</span>
-      </div>
-
-      <div className="relative h-48 w-full border overflow-hidden rounded-xl group mt-2">
-        {previewImage ? (
-          <img
-            src={previewImage}
-            alt="preview"
-            className="w-full h-full object-cover transition duration-500 group-hover:scale-110"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-base-200 text-sm opacity-60">
-            No Preview
-          </div>
-        )}
-
-        {/* hover effect */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-          <span className="text-white text-sm bg-black/50 px-3 py-1 rounded-lg">
-            Preview
-          </span>
+          {highlightRank && (
+            <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+            </span>
+          )}
         </div>
+
+        {/* Text Details - Single/Compact Line Hierarchy */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            {highlightRank && (
+              <span className="px-1.5 py-0.2 text-[9px] font-extrabold uppercase bg-accent/20 text-accent rounded shrink-0">
+                {highlightRank}
+              </span>
+            )}
+            <span className="px-1.5 py-0.2 text-[9px] font-bold uppercase bg-primary/10 text-primary rounded shrink-0">
+              {category || "General"}
+            </span>
+            <h3 className="font-bold text-xs sm:text-sm text-base-content leading-snug truncate hover:text-primary transition-colors">
+              {title || "Untitled Note"}
+            </h3>
+          </div>
+
+          <div className="flex items-center gap-3 text-[11px] text-base-content/60 mt-0.5">
+            <span className="truncate max-w-[100px] sm:max-w-[150px] inline-flex items-center gap-1">
+              <HiOutlineUser className="size-3 text-primary shrink-0" />
+              <span className="truncate">{author || "Community"}</span>
+            </span>
+
+            <span className="hidden sm:inline-flex items-center gap-1 shrink-0">
+              <HiOutlineCalendar className="size-3 shrink-0" />
+              <span>{time ? convertToLocal(time) : "Recent"}</span>
+            </span>
+
+            {desc && (
+              <span className="hidden md:inline truncate text-base-content/50 max-w-sm">
+                — {desc}
+              </span>
+            )}
+          </div>
+        </div>
+
       </div>
 
-      <span className="text-sm my-2 opacity-50">{convertToLocal(time)}</span>
-      <span className="badge badge-success text-white mb-2">
-        <FaUserCircle className="size-4" />
-        {`${author}`}
-      </span>
-      <div className="flex justify-between">
+      {/* Right: Small Compact Bar with Counts and Action Button */}
+      <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        
+        {/* Download counter */}
+        <div className="flex items-center gap-1 text-[11px] font-semibold px-2 py-1 rounded-lg bg-base-200 text-base-content/70" title="Downloads">
+          <HiOutlineArrowDownTray className="size-3.5 text-primary" />
+          <span>{downloads}</span>
+        </div>
+
+        {/* Like counter & button */}
         <button
-          className="bg-base-200 text-primary p-1 rounded-full"
-          onClick={handleClick}
+          onClick={handleLike}
+          className={`flex items-center gap-1 text-[11px] font-semibold px-2 py-1 rounded-lg border transition cursor-pointer ${
+            isLiked
+              ? "bg-accent/15 text-accent border-accent/30"
+              : "bg-base-200 text-base-content/70 hover:bg-base-300 border-transparent"
+          }`}
+          title={isLiked ? "Unlike" : "Like"}
         >
-          {btnContent}
+          {isLiked ? (
+            <HiHandThumbUp className="size-3.5 text-accent" />
+          ) : (
+            <HiOutlineHandThumbUp className="size-3.5" />
+          )}
+          <span>{likes}</span>
         </button>
-        <div className="flex items-center gap-4">
-          <div className="flex flex-col justify-center items-center">
-            <HiDownload className="size-6" />
-            <span className="text-sm">{downloads}</span>
-          </div>
-          <div className="flex flex-col justify-center items-center">
-            <button onClick={handleLike} className={`${isLiked
-                    ? "bg-blue-500"
-                    : "bg-gray-400"} size-6 rounded-full p-1 flex items-center justify-center`}>
-              <AiOutlineLike
-                className={`size-5`}
-              />
-            </button>
-            <span className="text-sm">{likes}</span>
-          </div>
+
+        {/* Action Button */}
+        <div>
+          <button
+            onClick={handleClick}
+            className="flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg sm:rounded-xl text-xs font-bold bg-primary hover:opacity-90 text-primary-content shadow-xs transition active:scale-95 cursor-pointer whitespace-nowrap"
+          >
+            {btnContent || (
+              <>
+                <HiOutlineArrowDownTray className="size-3.5" />
+                <span className="hidden sm:inline">Download</span>
+              </>
+            )}
+          </button>
         </div>
+
       </div>
+
     </div>
   );
 };

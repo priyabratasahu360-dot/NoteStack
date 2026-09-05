@@ -7,13 +7,25 @@ import fs from "fs";
 export const getAllNotes = async (req, res) => {
   try {
     const userId = req.user._id;
-    const notes = await Note.find({}).populate(
-      "authorId",
-      "_id profilePhoto userName",
-    ); // get all notes from database in the notes collection
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const totalNotes = await Note.countDocuments({});
+    const notes = await Note.find({})
+      .populate("authorId", "_id profilePhoto userName")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
 
     if (!notes) {
-      return res.status(200).json({ message: "No notes available" });
+      return res.status(200).json({ 
+        message: "No notes available", 
+        notes: [], 
+        totalNotes: 0, 
+        totalPages: 0, 
+        currentPage: page 
+      });
     }
 
     const updatedNotes = notes.map((note) => {
@@ -27,9 +39,14 @@ export const getAllNotes = async (req, res) => {
         isLiked,
       };
     });
-    res
-      .status(200)
-      .json({ message: "All available notes", notes: updatedNotes });
+
+    res.status(200).json({
+      message: "All available notes",
+      notes: updatedNotes,
+      totalNotes,
+      totalPages: Math.ceil(totalNotes / limit) || 1,
+      currentPage: page,
+    });
   } catch (error) {
     console.log("Error in getAllNotes controller: ", error);
     res.status(500).json({ message: "Internal server error" });

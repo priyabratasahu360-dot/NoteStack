@@ -1,89 +1,58 @@
-//EXTERNAL LIBRARIE AND TOOL
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { 
+  HiOutlineSquares2X2,
+  HiOutlineCloudArrowUp,
+  HiOutlineArrowDownTray,
+  HiOutlineDocumentDuplicate,
+  HiOutlineUserCircle
+} from "react-icons/hi2";
 
-//ASSETS(Icons)
-import { PiListDashesFill } from "react-icons/pi";
-import { MdFileUpload } from "react-icons/md";
-import { IoIosCreate } from "react-icons/io";
-import { IoMdDownload } from "react-icons/io";
-import { TiHome } from "react-icons/ti";
-import { RxDashboard } from "react-icons/rx";
-import { FaPlusCircle } from "react-icons/fa";
+export const Sidebar = ({ heading = "Dashboard" }) => {
+  const location = useLocation();
 
-export const Sidebar = ({heading}) => {
-  const linkItemsWithIcons = [
-    {to: "/note", text: "Dashboard", icon: <RxDashboard className="size-4"/>},
-    {to: "/uploaded", text: "Uploads", icon: <MdFileUpload className="size-6"/>},
-    {to: "/upload", text: "Create", icon: <FaPlusCircle className="size-4.5"/>},
-    {to: "/downloads", text: "Downloads", icon: <IoMdDownload className="size-6"/>}
-  ]
+  const navItems = [
+    { to: "/note", text: "Overview", icon: <HiOutlineSquares2X2 className="size-4" /> },
+    { to: "/uploaded", text: "Uploads", icon: <HiOutlineCloudArrowUp className="size-4" /> },
+    { to: "/upload", text: "Create", icon: <HiOutlineDocumentDuplicate className="size-4" /> },
+    { to: "/downloads", text: "Downloads", icon: <HiOutlineArrowDownTray className="size-4" /> },
+    { to: "/profile", text: "Profile", icon: <HiOutlineUserCircle className="size-4" /> },
+  ];
+
   return (
-    <div className="drawer sticky top-0 z-1">
-      <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content flex flex-col">
-        {/* Navbar */}
-        <div className="navbar bg-base-300 w-full">
-          <div className="flex-none lg:hidden">
-            <label
-              htmlFor="my-drawer-2"
-              aria-label="open sidebar"
-              className="btn btn-square btn-ghost"
-            >
-              <PiListDashesFill className="size-8" />
-            </label>
+    <div className="hidden sm:block w-full bg-base-100/90 backdrop-blur-md border-b border-base-content/10 sticky top-16 z-30 shadow-xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between py-2.5 gap-4">
+          
+          {/* Section Heading */}
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="w-2 h-2 rounded-full bg-primary" />
+            <span className="text-xs sm:text-sm font-extrabold text-base-content uppercase tracking-wider">
+              {heading}
+            </span>
           </div>
-          <div>
-            <Link to={"/"} className="btn">
-              <TiHome className="size-5" />
-              Home
-            </Link>
-          </div>
-          <div className="mx-2 flex-1 px-2 btn">{heading}</div>
-          <div className="hidden flex-none lg:block">
-            <ul className="menu menu-horizontal gap-4">
-              {/* Navbar menu content */}
-              <Link to={"/note"} className="btn">
-                <RxDashboard className="size-5" />
-                Dashboard
-              </Link>{" "}
-              <Link to={"/uploaded"} className="btn">
-                <MdFileUpload className="size-5" />
-                Uploads
-              </Link>{" "}
-              {/* link to uploaded notes by you */}
-              <Link to={"/upload"} className="btn">
-                <IoIosCreate className="size-5" />
-                Create
-              </Link>{" "}
-              {/* link to all create note page*/}
-              <Link to={"/downloads"} className="btn">
-                <IoMdDownload className="size-5" />
-                Downloads
-              </Link>
-              {/* all downloaded notes */}
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div className="drawer-side">
-        <label
-          htmlFor="my-drawer-2"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
-        <ul className="tabs tabs-box flex flex-col bg-base-200 min-h-full w-80 p-4 relative">
-          {/* Sidebar content here */}
-          {
-            linkItemsWithIcons.map((item, index) => (
-              <Link to={item.to} key={index} className="bg-base-200 text-base-content">
-                <div className="flex items-center">
-                  <span className="size-8 flex items-center justify-center">{item.icon}</span>
+
+          {/* Desktop Workspace Tabs */}
+          <div className="flex items-center gap-1.5 overflow-x-auto py-1 scrollbar-none">
+            {navItems.map((item, idx) => {
+              const isActive = location.pathname === item.to;
+              return (
+                <Link
+                  key={idx}
+                  to={item.to}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all duration-150 ${
+                    isActive
+                      ? "bg-primary text-primary-content shadow-xs"
+                      : "bg-base-200/70 text-base-content/75 hover:text-base-content hover:bg-base-200"
+                  }`}
+                >
+                  {item.icon}
                   <span>{item.text}</span>
-                </div>
-              </Link>
-            ))
-          }
-        </ul>
+                </Link>
+              );
+            })}
+          </div>
+
+        </div>
       </div>
     </div>
   );
