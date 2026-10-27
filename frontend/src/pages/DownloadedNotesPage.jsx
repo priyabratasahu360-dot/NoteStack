@@ -5,9 +5,12 @@ import { Footer } from "../components/Footer";
 import { countLikes, showAllDownloadedNotes } from "../api/api";
 import { HiOutlineArrowDownTray, HiOutlineDocumentText } from "react-icons/hi2";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export const DownloadedNotesPage = () => {
   const queryClient = useQueryClient();
+  const [activeFileUrl, setActiveFileUrl] = useState(null);
+  const [activeNoteTitle, setActiveNoteTitle] = useState("");
 
   const { data: downloadedNotes, isPending } = useQuery({
     queryKey: ["downloadedNote"],
@@ -26,7 +29,7 @@ export const DownloadedNotesPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-200/40 text-base-content flex flex-col">
+    <div className="min-h-screen bg-base-200/40 text-base-content flex flex-col relative">
       <Navbar />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-6">
@@ -74,7 +77,8 @@ export const DownloadedNotesPage = () => {
                   handleLike={() => handleLikeCount(note._id)}
                   handleClick={() => {
                     if (note.fileUrl) {
-                      window.open(note.fileUrl, "_blank");
+                      setActiveFileUrl(note.fileUrl);
+                      setActiveNoteTitle(note.title || "Note Viewer");
                     }
                   }}
                   btnContent={
@@ -108,6 +112,56 @@ export const DownloadedNotesPage = () => {
         )}
       </main>
       <Footer />
+
+      {/* In-app Document Viewer Overlay */}
+      {activeFileUrl && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+          <div className="relative w-full max-w-5xl h-[85vh] bg-base-100 rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-base-content/10">
+            
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-base-content/10">
+              <h3 className="font-extrabold text-lg text-base-content truncate">
+                {activeNoteTitle}
+              </h3>
+              <button
+                onClick={() => {
+                  setActiveFileUrl(null);
+                  setActiveNoteTitle("");
+                }}
+                className="w-8 h-8 flex items-center justify-center rounded-xl bg-base-200 hover:bg-base-300 text-base-content/80 font-bold transition active:scale-95"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Viewer Workspace */}
+            <div className="flex-1 w-full bg-base-200/40">
+              {activeFileUrl.toLowerCase().endsWith(".pdf") ? (
+                <iframe
+                  src={`${activeFileUrl}#toolbar=0`}
+                  title={activeNoteTitle}
+                  className="w-full h-full border-0"
+                />
+              ) : activeFileUrl.match(/\.(jpeg|jpg|png|gif|webp|svg)$/i) ? (
+                <div className="flex items-center justify-center h-full p-6">
+                  <img
+                    src={activeFileUrl}
+                    alt={activeNoteTitle}
+                    className="max-h-full max-w-full object-contain rounded-2xl shadow-sm"
+                  />
+                </div>
+              ) : (
+                <iframe
+                  src={activeFileUrl}
+                  title={activeNoteTitle}
+                  className="w-full h-full border-0 bg-white"
+                />
+              )}
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 };
