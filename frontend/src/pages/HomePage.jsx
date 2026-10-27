@@ -1,7 +1,8 @@
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAuthUser, getSearchedNotes, getAllAvailableNotes } from "../api/api";
 import { NoteCard } from "../components/NoteCard";
+import { downloadNote } from "../api/api";
 import {
   HiOutlineSparkles,
   HiOutlineArrowRight,
@@ -19,6 +20,7 @@ export const HomePage = () => {
   const [params] = useSearchParams();
   const queryParam = params.get("query") || "";
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [searchInput, setSearchInput] = useState(queryParam);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -60,6 +62,29 @@ export const HomePage = () => {
     setSearchInput("");
     navigate("/");
   };
+
+  const { mutate: mutateDownloadMutation } = useMutation({
+      mutationFn: downloadNote,
+      onSuccess: async (data) => {
+        queryClient.invalidateQueries({ queryKey: ["appStats"] });
+        if (data?.Url) {
+          const res = await fetch(data.Url);
+          const blob = await res.blob();
+          const blobUrl = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = blobUrl;
+          link.download = "note.pdf";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(blobUrl);
+        }
+      },
+    });
+  
+    const handleDownloadNote = (id) => {
+      mutateDownloadMutation(id);
+    };
 
   const categories = ["All", "Computer Science", "Engineering", "Mathematics", "Medical", "Business", "Physics"];
 
@@ -308,8 +333,8 @@ export const HomePage = () => {
                 handleClick={() => {
                   if (!authUser) {
                     window.location.href = "/login";
-                  } else if (note.fileUrl) {
-                    window.open(note.fileUrl, "_blank");
+                  } else{
+                    handleDownloadNote(note._id)
                   }
                 }}
               />

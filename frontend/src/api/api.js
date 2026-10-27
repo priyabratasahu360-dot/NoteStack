@@ -97,7 +97,7 @@ export const createNote = async (noteData) => {
 export const downloadNote = async (noteId) => {
     try {
         const res = await axiosInstance.post(`/note/notes/${noteId}/download`);
-        toast.success("Note downloaded succesfully");
+        toast.success(res.data.message);
         return res.data;
     }
     catch (error) {
