@@ -330,6 +330,11 @@ export const downloadNote = async (req, res) => {
       return res.status(404).json({ message: "Note not found" });
     }
 
+    const isExisting = await DownloadedNote.find({userId, noteId});
+    if(isExisting){
+      return res.status(200).json({message: "Note already downloaded"})
+    }
+
     const addToDownloadedNote = await DownloadedNote.create({
       userId: userId,
       noteId: noteId,
