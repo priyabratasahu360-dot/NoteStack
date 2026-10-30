@@ -63,8 +63,8 @@ export const Navbar = () => {
             {/* Logo & Brand */}
             <div className="flex items-center gap-6 shrink-0">
               <Link to="/" className="flex items-center gap-2.5 group">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-primary-content shadow-md shadow-primary/20 group-hover:scale-105 transition-transform">
-                  <HiOutlineBookOpen className="size-5.5" />
+                <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-md shadow-primary/20 group-hover:scale-105 transition-transform">
+                  <img src="/note.png"/>
                 </div>
                 <div className="flex flex-col">
                   <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">

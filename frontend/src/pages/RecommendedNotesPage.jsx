@@ -24,7 +24,7 @@ export const RecommendedNotesPage = () => {
         const blobUrl = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = blobUrl;
-        link.download = "note.pdf";
+        link.download = data.title;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

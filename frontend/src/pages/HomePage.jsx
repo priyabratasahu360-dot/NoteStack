@@ -73,7 +73,7 @@ export const HomePage = () => {
           const blobUrl = window.URL.createObjectURL(blob);
           const link = document.createElement("a");
           link.href = blobUrl;
-          link.download = "note.pdf";
+          link.download = data.title || "note";
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
@@ -248,13 +248,7 @@ export const HomePage = () => {
                   likes={note.likesCount || 0}
                   isLiked={note.isLiked}
                   highlightRank={idx === 0 ? "🔥 #1 Most Downloaded" : "⭐ Popular"}
-                  handleClick={() => {
-                    if (!authUser) {
-                      window.location.href = "/login";
-                    } else if (note.fileUrl) {
-                      window.open(note.fileUrl, "_blank");
-                    }
-                  }}
+                  handleClick={() => handleDownloadNote(note._id)}
                 />
               ))}
             </div>

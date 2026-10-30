@@ -85,11 +85,12 @@ export const UploadedNotesPage = () => {
                 isLiked={note.isLiked}
                 handleLike={() => handleLikeCount(note._id)}
                 btnContent={
-                  <span className="flex items-center gap-1 text-red-100 bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-xl">
+                  <span className="flex items-center gap-1">
                     <HiOutlineTrash className="size-4" />
                     <span>Delete</span>
                   </span>
                 }
+                btnClassName={"bg-red-500"}
               />
             ))}
           </div>

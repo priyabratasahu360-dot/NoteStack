@@ -330,7 +330,7 @@ export const downloadNote = async (req, res) => {
       return res.status(404).json({ message: "Note not found" });
     }
 
-    const isExisting = await DownloadedNote.find({userId, noteId});
+    const isExisting = await DownloadedNote.findOne({userId, noteId});
     if(isExisting){
       return res.status(200).json({message: "Note already downloaded"})
     }
@@ -347,6 +347,7 @@ export const downloadNote = async (req, res) => {
     res.status(201).json({
       message: "note succesfully added to downloaded note list",
       Url: note.fileUrl,
+      title: note.title
     });
   } catch (error) {
     console.log("Error in downloadNote controller: ", error);

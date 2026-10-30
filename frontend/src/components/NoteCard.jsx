@@ -15,6 +15,7 @@ export const NoteCard = ({
   category,
   time,
   btnContent,
+  btnClassName,
   previewImage,
   handleClick,
   downloads = 0,
@@ -119,7 +120,7 @@ export const NoteCard = ({
         <div>
           <button
             onClick={handleClick}
-            className="flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg sm:rounded-xl text-xs font-bold bg-primary hover:opacity-90 text-primary-content shadow-xs transition active:scale-95 cursor-pointer whitespace-nowrap"
+            className={`flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg sm:rounded-xl text-xs font-bold bg-primary hover:opacity-90 text-primary-content shadow-xs transition active:scale-95 cursor-pointer whitespace-nowrap ${btnClassName}`}
           >
             {btnContent || (
               <>
